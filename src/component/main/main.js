@@ -280,9 +280,9 @@ class Main extends React.Component {
                     <Grid container spacing={3}>
                         <Grid item xs={3} style={{ textAlign: "center" }}>
                             <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
-                            <Button id="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
-                                <img id="btn-upload-img" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
-                                <span id="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
+                            <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
+                                <img className="btn-upload-img" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
+                                <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
                             </Button>
                         </Grid>
                         <Grid item xs={8}>

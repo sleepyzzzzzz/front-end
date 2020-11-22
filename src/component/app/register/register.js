@@ -19,8 +19,10 @@ class Register extends React.Component {
             zipcode: '',
             pwd: '',
             pwdc: '',
+            img: '',
             msg: []
         };
+        this.upload = React.createRef();
     }
 
     validation = (field, value, reg, msg) => {
@@ -62,6 +64,16 @@ class Register extends React.Component {
             if (idx2 !== -1) {
                 msg.splice(idx2, 1);
             }
+        }
+    }
+
+    handleUpload = () => {
+        this.upload.current.click();
+    }
+
+    handlePhoto = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            this.setState({ img: URL.createObjectURL(e.target.files[0]) });
         }
     }
 
@@ -176,6 +188,7 @@ class Register extends React.Component {
                 this.state.birthdate,
                 zipcode,
                 this.state.pwd,
+                this.state.img,
                 this.state.displayname
             );
             this.setState({
@@ -187,6 +200,7 @@ class Register extends React.Component {
                 zipcode: '',
                 pwd: '',
                 pwdc: '',
+                img: '',
                 msg: []
             });
         }
@@ -202,6 +216,7 @@ class Register extends React.Component {
             zipcode: '',
             pwd: '',
             pwdc: '',
+            img: '',
             msg: []
         });
         this.props.handleReset();
@@ -377,6 +392,17 @@ class Register extends React.Component {
                         </Grid>
                     </Form.Row>
                     <Form.Row>
+                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                            <span id="img_label">Upload an image for the avatar:</span><br></br><br></br>
+                            <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
+                            <Button className="btn-upload-avatar" variant="outline-primary" onClick={this.handleUpload}>
+                                <img className="btn-upload-img-avatar" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
+                                <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
+                            </Button>
+                        </Grid>
+                    </Form.Row>
+                    <br></br>
+                    <Form.Row>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Form.Group>
@@ -420,7 +446,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleChange: (field, value) => dispatch(handleChange(field, value)),
-        handleRegister: (accountname, email, phone, birthdate, zipcode, password, displayname) => dispatch(handleRegister(accountname, email, phone, birthdate, zipcode, password, displayname)),
+        handleRegister: (accountname, email, phone, birthdate, zipcode, password, avatar, displayname) => dispatch(handleRegister(accountname, email, phone, birthdate, zipcode, password, avatar, displayname)),
         handleReset: () => dispatch(handleReset()),
     }
 }
