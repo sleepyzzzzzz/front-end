@@ -13,7 +13,7 @@ export default function Commentlist(props) {
 
     const comments = props.posts.comments.map(comment => {
         return (
-            <ListItem key={comment.timestamp}>
+            <ListItem key={comment.id}>
                 <ListItemAvatar>
                     <Avatar src={comment.author_avatar} />
                 </ListItemAvatar>
@@ -26,12 +26,12 @@ export default function Commentlist(props) {
                                 variant="body2"
                                 color="textPrimary"
                             >
-                                {comment.body}
+                                {comment.content}
                             </Typography>
                         </React.Fragment>
                     }
                 />
-                <span id="comment-time" className="text-muted">{comment.timestamp}</span>
+                <span id="comment-time" className="text-muted">{comment.date.toLocaleDateString()}</span>
             </ListItem>
         );
     });
@@ -48,9 +48,6 @@ export default function Commentlist(props) {
                 <Modal.Body>
                     <ListGroup>
                         {comments}
-                        {/* <ListItem>
-                            <span>Kulas Light</span>
-                        </ListItem> */}
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>

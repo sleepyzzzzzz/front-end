@@ -3,14 +3,13 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { handleChange, handleRegister, handleReset } from "../../../actions";
+import { handleRegister } from "../../../actions";
 import "./register.css";
 
 class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: {},
             accountname: '',
             displayname: '',
             email: '',
@@ -79,7 +78,6 @@ class Register extends React.Component {
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
-        this.props.handleChange(e.target.name, e.target.value);
         let field = e.target.name;
         let reg = '';
         let validate = true;
@@ -191,18 +189,7 @@ class Register extends React.Component {
                 this.state.img,
                 this.state.displayname
             );
-            this.setState({
-                accountname: '',
-                displayname: '',
-                email: '',
-                phone: '',
-                birthdate: '',
-                zipcode: '',
-                pwd: '',
-                pwdc: '',
-                img: '',
-                msg: []
-            });
+            this.reset();
         }
     }
 
@@ -219,7 +206,6 @@ class Register extends React.Component {
             img: '',
             msg: []
         });
-        this.props.handleReset();
     }
 
     render() {
@@ -232,6 +218,17 @@ class Register extends React.Component {
                     <Form.Row>
                         <h1 className="formheader">Register</h1>
                     </Form.Row>
+                    <Form.Row>
+                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                            <span id="img_label">Upload an image for the avatar:</span><br></br><br></br>
+                            <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
+                            <Button className="btn-upload-avatar" variant="outline-primary" onClick={this.handleUpload}>
+                                <img className="btn-upload-img-avatar" alt="" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
+                                <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
+                            </Button>
+                        </Grid>
+                    </Form.Row>
+                    <br></br>
                     <Form.Row>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
@@ -392,17 +389,6 @@ class Register extends React.Component {
                         </Grid>
                     </Form.Row>
                     <Form.Row>
-                        <Grid item xs={12} style={{ textAlign: "center" }}>
-                            <span id="img_label">Upload an image for the avatar:</span><br></br><br></br>
-                            <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
-                            <Button className="btn-upload-avatar" variant="outline-primary" onClick={this.handleUpload}>
-                                <img className="btn-upload-img-avatar" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
-                                <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
-                            </Button>
-                        </Grid>
-                    </Form.Row>
-                    <br></br>
-                    <Form.Row>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Form.Group>
@@ -430,7 +416,6 @@ class Register extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        users: state.users,
         accountname: state.accountname,
         displayname: state.displayname,
         email: state.email,
@@ -438,16 +423,13 @@ const mapStateToProps = (state) => {
         birthdate: state.birthdate,
         zipcode: state.zipcode,
         pwd: state.pwd,
-        info: state.info,
-        redirect: state.redirect
+        info: state.info
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleChange: (field, value) => dispatch(handleChange(field, value)),
         handleRegister: (accountname, email, phone, birthdate, zipcode, password, avatar, displayname) => dispatch(handleRegister(accountname, email, phone, birthdate, zipcode, password, avatar, displayname)),
-        handleReset: () => dispatch(handleReset()),
     }
 }
 

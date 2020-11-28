@@ -2,8 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button, Image, ListGroup } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import { handleChange, handleLogout, loadUsers, loadPost, updateStatus, updateFollowed, addPost, filterPost } from "../../actions";
+import { handleLogout, handleProfile, updateStatus, getFollow, updateFollow, addPost, filterPost } from "../../actions";
 import Commentlist from './comment';
 import "./main.css";
 
@@ -13,7 +12,6 @@ class Main extends React.Component {
         this.state = {
             status: '',
             new_post: '',
-            new_followed_user: '',
             msg: '',
             search: '',
             post_display: [],
@@ -21,23 +19,7 @@ class Main extends React.Component {
         }
         this.upload = React.createRef();
         this.inputPost = React.createRef();
-        this.search = React.createRef();
         this.show = false;
-    }
-
-    load_users_posts = () => {
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-            .then((res) => res.json())
-            .then(
-                (res) =>
-                    this.props.loadUsers(res)
-            );
-        fetch(`https://jsonplaceholder.typicode.com/posts`)
-            .then((res) => res.json())
-            .then(
-                (res) =>
-                    this.props.loadPost(res)
-            );
     }
 
     onChange = (e) => {
@@ -56,35 +38,33 @@ class Main extends React.Component {
 
     // Follower
     unfollow = (e) => {
-        this.props.updateFollowed(e.target.id, "unfollow");
+        this.props.updateFollow(e.target.id, "unfollow");
     }
 
     addFollowed = () => {
         if (this.state.new_followed_user !== "") {
-            this.props.updateFollowed(this.state.new_followed_user, "add");
+            this.props.updateFollow(this.state.new_followed_user, "add");
             this.setState({ new_followed_user: "" });
         }
     }
 
     displayFollowedUsers = () => {
-        let displayfollowed;
-        let followed = [];
-        if (this.props.followed) {
-            this.props.followed.forEach(follow => followed.push(JSON.parse(follow)));
-        }
-        if (followed) {
-            displayfollowed = followed.map(follow => {
+        this.props.getFollow();
+        let follow = this.props.follow;
+        let displayfollow;
+        if (follow) {
+            displayfollow = follow.map(follow => {
                 return (
-                    <ListGroup className="follow" key={follow.accountname}>
+                    <ListGroup className="follow" key={follow.username}>
                         <ListItem>
-                            <ListItemAvatar>
-                                <Avatar alt="img" src={follow.picture} />
-                            </ListItemAvatar>
+                            {/* <ListItemAvatar>
+                                <Avatar alt="img.png" src={follow.picture} />
+                            </ListItemAvatar> */}
                             <ListItemText
-                                primary={follow.accountname}
-                                secondary={follow.status}
+                                primary={follow.username}
+                            // secondary={follow.status}
                             />
-                            <Button className="btn-unfollow" type="submit" id={follow.accountname} onClick={this.unfollow}>
+                            <Button className="btn-unfollow" type="submit" id={follow.username} onClick={this.unfollow}>
                                 Unfollow
                             </Button>
                         </ListItem>
@@ -94,9 +74,9 @@ class Main extends React.Component {
             });
         }
         else {
-            displayfollowed = "";
+            displayfollow = "";
         }
-        return displayfollowed;
+        return displayfollow;
     }
 
     // Posts
@@ -120,31 +100,27 @@ class Main extends React.Component {
     }
 
     displayPost = () => {
-        let posts;
-        if (this.state.post_display.length === 0 && this.state.search === "") {
-            posts = this.props.posts;
-        }
-        else {
-            posts = this.state.post_display;
-        }
+        let method = this.state.search ? 'id' : ''
+        this.props.filterPost(this.state.search, method);
+        let posts = this.props.posts;
         let displaypost = posts.map(post => {
             return (
-                <ListGroup key={post.timestamp}>
+                <ListGroup key={post.pid}>
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar alt="img" src={post.author_avatar} />
                         </ListItemAvatar>
                         <ListItemText
                             primary={post.author}
-                            secondary={post.timestamp}
+                            secondary={post.date.toLocaleDateString()}
                         />
                     </ListItem>
                     <div className="post-info">
                         <div>
-                            <span>{post.body}</span>
+                            <span>{post.text}</span>
                         </div >
                         <div className="post-img">
-                            <Image className="images" src={post.photo} style={{ display: post.photo ? "block" : "none" }}></Image>
+                            <Image className="images" src={post.images} style={{ display: post.images ? "block" : "none" }}></Image>
                         </div>
                     </div>
                     <br></br>
@@ -170,40 +146,7 @@ class Main extends React.Component {
         return displaypost;
     }
 
-    filterpost = (e) => {
-        let method = e.target.id === "searchauthor" ? "author" : "text";
-        this.props.filterPost(this.state.search, method);
-        let user_posts = this.props.posts;
-        let new_posts = [];
-        if (e.target.id === "searchauthor") {
-            for (let i = 0; i < user_posts.length; i++) {
-                if (this.state.search === user_posts[i].author) {
-                    new_posts.push(user_posts[i]);
-                }
-            }
-        }
-        else if (e.target.id === "searchtext") {
-            for (let i = 0; i < user_posts.length; i++) {
-                let tmp = user_posts[i].body.split(" ");
-                for (let j = 0; j < tmp.length; j++) {
-                    if (this.state.search === tmp[j]) {
-                        new_posts.push(user_posts[i]);
-                        break;
-                    }
-                }
-            }
-        }
-        this.setState({ post_display: new_posts });
-    }
-
     render() {
-        let username = document.cookie.split("=")[1];
-        if (username === "" || typeof (username) === "undefined") {
-            return <Redirect to={'/'} />
-        }
-        if (this.props.users.length === 0) {
-            this.load_users_posts();
-        }
         return (
             <Grid container spacing={3} id="main-page">
                 <Grid item xs={5}>
@@ -211,14 +154,14 @@ class Main extends React.Component {
                     <Grid item xs={12} className="User-Follow">
                         <Grid container spacing={3}>
                             <Grid item xs={6} className="links">
-                                <Link to="/" onClick={() => this.props.handleLogout()}>Log Out</Link>
+                                <Button onClick={() => this.props.handleLogout()}>Log Out</Button>
                             </Grid>
                             <Grid item xs={6} className="links">
-                                <Link to="/profile">Profile</Link>
+                                <Button onClick={() => this.props.handleProfile()}>Profile</Button>
                             </Grid>
                             <Grid item xs={12}>
                                 <div id="user-info">
-                                    <Image alt="img" id="user-img" src={this.props.login_user.picture} roundedCircle></Image>
+                                    <Image alt="" id="user-img" src={this.props.avatar} roundedCircle></Image>
                                     <h3>{this.props.accountname}</h3>
                                     <span>{this.props.status}</span>
                                     <InputGroup className="mb-3">
@@ -281,7 +224,7 @@ class Main extends React.Component {
                         <Grid item xs={3} style={{ textAlign: "center" }}>
                             <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                             <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
-                                <img className="btn-upload-img" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
+                                <img className="btn-upload-img" alt="" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
                                 <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
                             </Button>
                         </Grid>
@@ -316,10 +259,6 @@ class Main extends React.Component {
                                         placeholder="Search Here"
                                         onChange={this.onChange}
                                     />
-                                    <InputGroup.Append>
-                                        <Button id="searchauthor" variant="outline-secondary" onClick={this.filterpost}>By Author</Button>
-                                        <Button id="searchtext" variant="outline-secondary" onClick={this.filterpost}>By Text</Button>
-                                    </InputGroup.Append>
                                 </InputGroup>
                             </Grid>
                         </Grid>
@@ -335,29 +274,23 @@ class Main extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.users,
-        login_user: state.login_user,
-        user_posts: state.user_posts,
-        posts: state.posts,
         accountname: state.accountname,
         displayname: state.displayname,
         status: state.status,
-        followed: state.followed,
-        picture: state.picture,
+        follow: state.follow,
+        avatar: state.avatar,
+        posts: state.posts,
         info: state.info,
-        filtered_posts: state.filtered_posts,
-        redirect: state.redirect
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleChange: (field, value) => dispatch(handleChange(field, value)),
+        handleProfile: () => dispatch(handleProfile()),
         handleLogout: () => dispatch(handleLogout()),
-        loadUsers: (users) => dispatch(loadUsers(users)),
-        loadPost: (posts) => dispatch(loadPost(posts)),
         updateStatus: (status) => dispatch(updateStatus(status)),
-        updateFollowed: (accountname, method) => dispatch(updateFollowed(accountname, method)),
+        getFollow: () => dispatch(getFollow()),
+        updateFollow: (accountname, method) => dispatch(updateFollow(accountname, method)),
         addPost: (accountname, new_post, img) => dispatch(addPost(accountname, new_post, img)),
         filterPost: (value, method) => dispatch(filterPost(value, method)),
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { handleChange, handleLogin } from "../../../actions";
+import { handleLogin } from "../../../actions";
 import "./login.css";
 
 class Login extends React.Component {
@@ -17,7 +17,6 @@ class Login extends React.Component {
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
-        this.props.handleChange(e.target.name, e.target.value)
     }
 
     notValidate = (field) => {
@@ -106,18 +105,14 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.users,
-        login_user: state.login_user,
         accountname: state.accountname,
         pwd: state.pwd,
-        info: state.info,
-        redirect: state.redirect
+        info: state.info
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleChange: (field, value) => dispatch(handleChange(field, value)),
         handleLogin: (accountname, pwd) => dispatch(handleLogin(accountname, pwd)),
     }
 }

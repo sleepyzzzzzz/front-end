@@ -2,25 +2,11 @@ import React from 'react';
 import { connect } from "react-redux";
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { loadUsers, loadPost, handleInfo } from "../../actions";
+import { handleInfo } from "../../actions";
 import { Grid } from '@material-ui/core';
 import "./app.css";
 
 class App extends React.Component {
-  componentDidMount() {
-    fetch(`https://jsonplaceholder.typicode.com/users`)
-      .then((res) => res.json())
-      .then(
-        (res) =>
-          this.props.loadUsers(res)
-      );
-    fetch(`https://jsonplaceholder.typicode.com/posts`)
-      .then((res) => res.json())
-      .then(
-        (res) =>
-          this.props.loadPost(res)
-      );
-  }
 
   render() {
     return (
@@ -47,22 +33,12 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users,
-    posts: state.posts,
-    accountname: state.accountname,
-    displayname: state.displayname,
-    email: state.email,
-    phone: state.phone,
-    birthdate: state.birthdate,
-    zipcode: state.zipcode,
-    pwd: state.pwd,
+    info: state.info
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUsers: (users) => dispatch(loadUsers(users)),
-    loadPost: (posts) => dispatch(loadPost(posts)),
     handleInfo: () => dispatch(handleInfo()),
   }
 }
