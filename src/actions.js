@@ -3,6 +3,14 @@ export const url = path => `http://localhost:3000${path}`;
 // export const url = path => `https://yz166-hw6-backend.herokuapp.com${path}`;
 axios.defaults.withCredentials = true;
 
+export const goLogin = () => ({
+    type: goLogin
+});
+
+export const goRegister = () => ({
+    type: goRegister
+});
+
 export const handleInfo = () => ({
     type: handleInfo
 });
@@ -24,19 +32,20 @@ export const handleLogin = (accountname, pwd) => {
     return (dispatch) => {
         axios.post(url('/login'), user, { crossDomain: true }).then((res) => {
             const data = res.data;
+            console.log(data);
             return dispatch({
                 type: handleLogin,
                 accountname,
                 pwd,
                 data
             })
-        })
-            .catch(e => {
-                return dispatch({
-                    type: handleLogin,
-                    e
-                })
+        }).catch(e => {
+            const data = e.response;
+            return dispatch({
+                type: handleLogin,
+                data
             })
+        })
     }
 };
 
@@ -55,6 +64,12 @@ export const handleRegister = (accountname, email, phone, birthdate, zipcode, pa
             return dispatch({
                 type: handleRegister,
                 accountname, email, phone, birthdate, zipcode, password, avatar, displayname, data
+            })
+        }).catch(e => {
+            const data = e.response;
+            return dispatch({
+                type: handleRegister,
+                data
             })
         })
     }

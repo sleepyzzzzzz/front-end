@@ -2,7 +2,6 @@ import { Grid } from '@material-ui/core';
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { handleRegister } from "../../../actions";
 import "./register.css";
 
@@ -209,9 +208,6 @@ class Register extends React.Component {
     }
 
     render() {
-        if (this.props.redirect) {
-            return <Redirect to={this.props.redirect} />
-        }
         return (
             <Container>
                 <Form noValidate className="form_reg" onSubmit={this.onSubmit}>

@@ -1,5 +1,5 @@
 import {
-    handleInfo, handleProfile, handleMain,
+    goLogin, goRegister, handleInfo, handleProfile, handleMain,
     handleLogin, handleRegister, handleLogout,
     updateStatus, getFollow, updateFollow, addPost, filterPost,
     handleUpdate, getInfo, getAvatar, getStatus
@@ -23,6 +23,18 @@ const initialState = {
 
 export function frontend(state = initialState, action) {
     switch (action.type) {
+        case goLogin:
+            return {
+                ...state,
+                path: '/login',
+                info: ""
+            }
+        case goRegister:
+            return {
+                ...state,
+                path: '/register',
+                info: ""
+            }
         case handleInfo:
             return {
                 ...state,
@@ -39,10 +51,10 @@ export function frontend(state = initialState, action) {
                 path: '/main'
             }
         case handleLogin:
-            if (!action.data.status === 401) {
+            if (action.data.status === 401) {
                 return {
                     ...state,
-                    info: "Account Name or Password is not correct; Or you haven't registered yet, Please register first!"
+                    info: action.data.data
                 }
             }
             return {
@@ -51,16 +63,16 @@ export function frontend(state = initialState, action) {
                 path: "/main"
             };
         case handleRegister:
-            if (!action.data.status === 401) {
+            if (action.data.status === 401) {
                 return {
                     ...state,
-                    info: "The account name has already been taken. Please choose another one"
+                    info: action.data.data
                 }
             }
             return {
                 ...state,
                 info: 'Successfully Registered',
-                path: '/'
+                path: '/register'
             };
         case handleLogout:
             return {

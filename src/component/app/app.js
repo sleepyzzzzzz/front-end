@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { Nav, Navbar } from 'react-bootstrap';
-import { Link } from "react-router-dom";
-import { handleInfo } from "../../actions";
+import { Nav, Navbar, Button } from 'react-bootstrap';
+import { goLogin, goRegister } from "../../actions";
 import { Grid } from '@material-ui/core';
 import "./app.css";
 
@@ -18,10 +17,10 @@ class App extends React.Component {
           <Grid item xs={12} sm={2}>
             <Nav defaultActiveKey="/">
               <Nav.Item>
-                <Link className="nav-link" to="/login" onClick={() => this.props.handleInfo()}>LOGIN</Link>
+                <Button onClick={() => this.props.goLogin()}>LOGIN</Button>
               </Nav.Item>
               <Nav.Item>
-                <Link className="nav-link" to="/register" onClick={() => this.props.handleInfo()}>REGISTER</Link>
+                <Button onClick={() => this.props.goRegister()}>REGISTER</Button>
               </Nav.Item>
             </Nav>
           </Grid>
@@ -39,7 +38,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInfo: () => dispatch(handleInfo()),
+    goLogin: () => dispatch(goLogin()),
+    goRegister: () => dispatch(goRegister()),
   }
 }
 

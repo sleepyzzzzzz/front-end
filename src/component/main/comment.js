@@ -31,7 +31,7 @@ export default function Commentlist(props) {
                         </React.Fragment>
                     }
                 />
-                <span id="comment-time" className="text-muted">{comment.date.toLocaleDateString()}</span>
+                <span id="comment-time" className="text-muted">{comment.date}</span>
             </ListItem>
         );
     });

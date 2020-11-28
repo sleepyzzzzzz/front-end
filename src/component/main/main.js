@@ -62,7 +62,7 @@ class Main extends React.Component {
                             </ListItemAvatar> */}
                             <ListItemText
                                 primary={follow.username}
-                            // secondary={follow.status}
+                                secondary={follow.status}
                             />
                             <Button className="btn-unfollow" type="submit" id={follow.username} onClick={this.unfollow}>
                                 Unfollow
@@ -112,7 +112,7 @@ class Main extends React.Component {
                         </ListItemAvatar>
                         <ListItemText
                             primary={post.author}
-                            secondary={post.date.toLocaleDateString()}
+                            secondary={post.date}
                         />
                     </ListItem>
                     <div className="post-info">
