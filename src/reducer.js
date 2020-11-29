@@ -1,7 +1,7 @@
 import {
     goLogin, goRegister, handleInfo, handleProfile, handleMain,
     handleLogin, handleRegister, handleLogout,
-    updateStatus, getFollow, updateFollow, addPost, filterPost,
+    updateStatus, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
     getInfo, getAvatar, getStatus
 } from "./actions";
@@ -45,12 +45,14 @@ export function frontend(state = initialState, action) {
         case handleProfile:
             return {
                 ...state,
-                path: '/profile'
+                path: '/profile',
+                info: ""
             }
         case handleMain:
             return {
                 ...state,
-                path: '/main'
+                path: '/main',
+                info: ""
             }
         case handleLogin:
             if (action.data.status === 401) {
@@ -62,7 +64,9 @@ export function frontend(state = initialState, action) {
             return {
                 ...state,
                 accountname: action.data.username,
-                path: "/main"
+                pwd: action.pwd.replace(/./g, "*"),
+                path: "/main",
+                info: ''
             };
         case handleRegister:
             if (action.data.status === 401) {
@@ -123,6 +127,11 @@ export function frontend(state = initialState, action) {
                 posts: action.data.articles
             }
         case filterPost:
+            return {
+                ...state,
+                posts: action.data.articles
+            }
+        case updatePost:
             return {
                 ...state,
                 posts: action.data.articles

@@ -208,6 +208,33 @@ export const filterPost = (value, method) => {
     }
 };
 
+export const updatePost = (text, pid, id) => {
+    let post;
+    if (id < -1) {
+        post = {
+            text: text
+        }
+    }
+    else {
+        post = {
+            text: text,
+            commentId: id
+        }
+    }
+    return (dispatch) => {
+        axios.put(url('/articles/' + pid), post, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: updatePost,
+                text,
+                pid,
+                id,
+                data
+            })
+        })
+    }
+}
+
 export const handleEmail = (email) => {
     let new_email = {
         email: email
