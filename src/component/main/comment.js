@@ -15,7 +15,7 @@ export default function Commentlist(props) {
         return (
             <ListItem key={comment.id}>
                 <ListItemAvatar>
-                    <Avatar src={comment.author_avatar} />
+                    <Avatar src={comment.avatar} />
                 </ListItemAvatar>
                 <ListItemText
                     primary={comment.author}

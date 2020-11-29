@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button, Image, ListGroup } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { handleLogout, handleProfile, updateStatus, getFollow, updateFollow, addPost, filterPost } from "../../actions";
+import { handleLogout, handleProfile, getStatus, updateStatus, getFollow, updateFollow, addPost, filterPost } from "../../actions";
 import Commentlist from './comment';
 import "./main.css";
 
@@ -31,6 +31,15 @@ class Main extends React.Component {
     }
 
     // User
+    displayStatus = () => {
+        this.props.getStatus();
+        return (
+            <span>
+                {this.props.status}
+            </span>
+        );
+    }
+
     updatestatus = () => {
         this.props.updateStatus(this.state.status);
         this.setState({ status: "" });
@@ -50,19 +59,19 @@ class Main extends React.Component {
 
     displayFollowedUsers = () => {
         this.props.getFollow();
-        let follow = this.props.follow;
+        let follow = this.props.follow_info;
         let displayfollow;
         if (follow) {
             displayfollow = follow.map(follow => {
                 return (
                     <ListGroup className="follow" key={follow.username}>
                         <ListItem>
-                            {/* <ListItemAvatar>
-                                <Avatar alt="img.png" src={follow.picture} />
-                            </ListItemAvatar> */}
+                            <ListItemAvatar>
+                                <Avatar alt="img.png" src={follow.avatar} />
+                            </ListItemAvatar>
                             <ListItemText
                                 primary={follow.username}
-                                secondary={follow.status}
+                                secondary={follow.headline}
                             />
                             <Button className="btn-unfollow" type="submit" id={follow.username} onClick={this.unfollow}>
                                 Unfollow
@@ -108,7 +117,7 @@ class Main extends React.Component {
                 <ListGroup key={post.pid}>
                     <ListItem>
                         <ListItemAvatar>
-                            <Avatar alt="img" src={post.author_avatar} />
+                            <Avatar alt="img" src={post.avatar} />
                         </ListItemAvatar>
                         <ListItemText
                             primary={post.author}
@@ -163,7 +172,7 @@ class Main extends React.Component {
                                 <div id="user-info">
                                     <Image alt="" id="user-img" src={this.props.avatar} roundedCircle></Image>
                                     <h3>{this.props.accountname}</h3>
-                                    <span>{this.props.status}</span>
+                                    {this.displayStatus()}
                                     <InputGroup className="mb-3">
                                         <FormControl
                                             className="form-control"
@@ -278,6 +287,7 @@ const mapStateToProps = (state) => {
         displayname: state.displayname,
         status: state.status,
         follow: state.follow,
+        follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
         info: state.info,
@@ -288,6 +298,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleProfile: () => dispatch(handleProfile()),
         handleLogout: () => dispatch(handleLogout()),
+        getStatus: () => dispatch(getStatus()),
         updateStatus: (status) => dispatch(updateStatus(status)),
         getFollow: () => dispatch(getFollow()),
         updateFollow: (accountname, method) => dispatch(updateFollow(accountname, method)),

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { Container, Image, Card, Form, Button } from 'react-bootstrap';
 import { Grid } from '@material-ui/core';
-import { handleMain, getAvatar, getInfo, handleUpdate } from "../../actions";
+import { handleMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd, } from "../../actions";
 import "./profile.css";
 
 class Profile extends React.Component {
@@ -106,7 +106,21 @@ class Profile extends React.Component {
             }
             else {
                 this.reset();
-                this.props.handleUpdate(this.state.email, this.state.phone, this.state.zipcode, this.state.pwd, this.state.img);
+                if (this.state.email) {
+                    this.props.handleEmail(this.state.email);
+                }
+                if (this.state.zipcode) {
+                    this.props.handleZipcode(this.state.zipcode);
+                }
+                if (this.state.phone) {
+                    this.props.handlePhone(this.state.phone);
+                }
+                if (this.state.pwd) {
+                    this.props.handlePwd(this.state.pwd);
+                }
+                if (this.state.img) {
+                    this.props.handleAvatar(this.state.img);
+                }
             }
         }
     }
@@ -268,7 +282,11 @@ const mapDispatchToProps = (dispatch) => {
         handleMain: () => dispatch(handleMain()),
         getAvatar: () => dispatch(getAvatar()),
         getInfo: () => dispatch(getInfo()),
-        handleUpdate: (accountname, email, phone, zipcode, pwd) => dispatch(handleUpdate(accountname, email, phone, zipcode, pwd)),
+        handleEmail: (email) => dispatch(handleEmail(email)),
+        handleZipcode: (zipcode) => dispatch(handleZipcode(zipcode)),
+        handlePhone: (phone) => dispatch(handlePhone(phone)),
+        handleAvatar: (avatar) => dispatch(handleAvatar(avatar)),
+        handlePwd: (pwd) => dispatch(handlePwd(pwd)),
     }
 }
 

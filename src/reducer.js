@@ -2,7 +2,8 @@ import {
     goLogin, goRegister, handleInfo, handleProfile, handleMain,
     handleLogin, handleRegister, handleLogout,
     updateStatus, getFollow, updateFollow, addPost, filterPost,
-    handleUpdate, getInfo, getAvatar, getStatus
+    handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
+    getInfo, getAvatar, getStatus
 } from "./actions";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
     status: '',
     avatar: '',
     follow: [],
+    follow_info: [],
     posts: [],
     info: '',
     path: '/'
@@ -73,7 +75,7 @@ export function frontend(state = initialState, action) {
                 ...state,
                 info: 'Successfully Registered',
                 path: '/register'
-            };
+            }
         case handleLogout:
             return {
                 ...state,
@@ -88,6 +90,7 @@ export function frontend(state = initialState, action) {
                 status: '',
                 avatar: '',
                 follow: [],
+                follow_info: [],
                 posts: [],
                 filtered_posts: [],
                 info: '',
@@ -106,7 +109,8 @@ export function frontend(state = initialState, action) {
         case getFollow:
             return {
                 ...state,
-                follow: action.data.following
+                follow: action.data.following,
+                follow_info: action.data1.info
             }
         case updateFollow:
             return {
@@ -117,22 +121,43 @@ export function frontend(state = initialState, action) {
             return {
                 ...state,
                 posts: action.data.articles
-            };
+            }
         case filterPost:
             return {
                 ...state,
                 posts: action.data.articles
             }
-        case handleUpdate:
+        case handleEmail:
             return {
                 ...state,
+                email: action.data.email
+            };
+        case handleZipcode:
+            return {
+                ...state,
+                zipcode: action.data.zipcode
+            };
+        case handlePhone:
+            return {
+                ...state,
+                phone: action.data.phone
+            };
+        case handleAvatar:
+            return {
+                ...state,
+                avatar: action.data.avatar
+            };
+        case handlePwd:
+            return {
+                ...state,
+                pwd: action.data.pwd
             };
         case getInfo:
-            console.log(action);
             return {
                 ...state,
                 email: action.data.email,
-                zipcode: action.data1.zipcode
+                zipcode: action.data1.zipcode,
+                phone: action.data2.phone
             }
         case getAvatar:
             return {

@@ -119,9 +119,13 @@ export const getFollow = () => {
     return (dispatch) => {
         axios.get(url('/following'), { crossDomain: true }).then((res) => {
             const data = res.data;
-            return dispatch({
-                type: getFollow,
-                data
+            axios.get(url('/followinginfo'), { crossDomain: true }).then((res1) => {
+                const data1 = res1.data;
+                return dispatch({
+                    type: getFollow,
+                    data,
+                    data1
+                })
             })
         })
     };
@@ -204,103 +208,86 @@ export const filterPost = (value, method) => {
     }
 };
 
-export const handleUpdate = (email, phone, zipcode, pwd, avatar) => {
-    if (email) {
-        let new_email = {
-            email: email
-        }
-        return (dispatch) => {
-            axios.put(url('/email'), new_email, { crossDomain: true }).then((res) => {
-                const data = res.data;
-                return dispatch({
-                    type: handleUpdate,
-                    email,
-                    phone,
-                    zipcode,
-                    pwd,
-                    avatar,
-                    data
-                })
-            })
-        }
+export const handleEmail = (email) => {
+    let new_email = {
+        email: email
     }
-    if (phone) {
-        let new_phone = {
-            phone: phone
-        }
-        return (dispatch) => {
-            axios.put(url('/phone'), new_phone, { crossDomain: true }).then((res) => {
-                const data = res.data;
-                return dispatch({
-                    type: handleUpdate,
-                    email,
-                    phone,
-                    zipcode,
-                    pwd,
-                    avatar,
-                    data
-                })
+    return (dispatch) => {
+        axios.put(url('/email'), new_email, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: handleEmail,
+                email,
+                data
             })
-        }
+        })
     }
-    if (zipcode) {
-        let new_zipcode = {
-            zipcode: zipcode
-        }
-        return (dispatch) => {
-            axios.put(url('/zipcode'), new_zipcode, { crossDomain: true }).then((res) => {
-                const data = res.data;
-                return dispatch({
-                    type: handleUpdate,
-                    email,
-                    phone,
-                    zipcode,
-                    pwd,
-                    avatar,
-                    data
-                })
+}
+
+export const handlePhone = (phone) => {
+    let new_phone = {
+        phone: phone
+    }
+    return (dispatch) => {
+        axios.put(url('/phone'), new_phone, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: handlePhone,
+                phone,
+                data
             })
-        }
+        })
     }
-    if (pwd) {
-        let new_password = {
-            password: pwd
-        }
-        return (dispatch) => {
-            axios.put(url('/password'), new_password, { crossDomain: true }).then((res) => {
-                const data = res.data;
-                return dispatch({
-                    type: handleUpdate,
-                    email,
-                    phone,
-                    zipcode,
-                    pwd,
-                    avatar,
-                    data
-                })
+}
+
+export const handleZipcode = (zipcode) => {
+    let new_zipcode = {
+        zipcode: zipcode
+    }
+    return (dispatch) => {
+        axios.put(url('/zipcode'), new_zipcode, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: handleZipcode,
+                zipcode,
+                data
             })
-        }
+        })
     }
-    if (avatar) {
-        let new_avatar = {
-            avatar: avatar
-        }
-        return (dispatch) => {
-            axios.put(url('/avatar'), new_avatar, { crossDomain: true }).then((res) => {
-                const data = res.data;
-                return dispatch({
-                    type: handleUpdate,
-                    email,
-                    phone,
-                    zipcode,
-                    pwd,
-                    avatar,
-                    data
-                })
+}
+
+export const handleAvatar = (avatar) => {
+    let new_avatar = {
+        avatar: avatar
+    }
+    return (dispatch) => {
+        axios.put(url('/avatar'), new_avatar, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: handleAvatar,
+                avatar,
+                data
             })
-        }
+        })
     }
-};
+}
+
+
+export const handlePwd = (pwd) => {
+    let new_password = {
+        password: pwd
+    }
+    return (dispatch) => {
+        axios.put(url('/password'), new_password, { crossDomain: true }).then((res) => {
+            const data = res.data;
+            return dispatch({
+                type: handlePwd,
+                pwd,
+                data
+            })
+        })
+    }
+}
 
 export const getInfo = () => {
     return (dispatch) => {
@@ -308,10 +295,14 @@ export const getInfo = () => {
             const data = res.data;
             axios.get(url('/zipcode'), { crossDomain: true }).then((res1) => {
                 const data1 = res1.data;
-                return dispatch({
-                    type: getInfo,
-                    data,
-                    data1
+                axios.get(url('/phone'), { crossDomain: true }).then((res2) => {
+                    const data2 = res2.data;
+                    return dispatch({
+                        type: getInfo,
+                        data,
+                        data1,
+                        data2
+                    })
                 })
             })
         })
