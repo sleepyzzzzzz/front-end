@@ -8,7 +8,7 @@ class Follow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: '',
+            new_followed_user: '',
             img: '',
             msg: ''
         }
@@ -21,8 +21,7 @@ class Follow extends React.Component {
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
-            msg: "",
-            post_display: this.props.posts
+            msg: ""
         });
     }
 
@@ -40,7 +39,7 @@ class Follow extends React.Component {
     displayFollowedUsers = () => {
         let follow = this.props.follow_info;
         let displayfollow;
-        if (this.state.follow) {
+        if (follow) {
             displayfollow = follow.map(follow => {
                 return (
                     <ListGroup className="follow" key={follow.username}>
@@ -87,7 +86,7 @@ class Follow extends React.Component {
                                 <InputGroup.Append>
                                     <Button id="btn-addfollow" type="submit" onClick={this.addFollowed}>
                                         Add
-                                            </Button>
+                                    </Button>
                                 </InputGroup.Append>
                             </InputGroup>
                         </div>
@@ -117,7 +116,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getFollow: () => dispatch(getFollow()),
-        updateFollow: (accountname, method) => dispatch(updateFollow(accountname, method)),
+        updateFollow: (username, method) => dispatch(updateFollow(username, method)),
     }
 }
 

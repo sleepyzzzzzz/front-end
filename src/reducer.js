@@ -114,12 +114,21 @@ export function frontend(state = initialState, action) {
             return {
                 ...state,
                 follow: action.data.following,
-                follow_info: action.data1.info
+                follow_info: action.data1.info,
+                info: ''
             }
         case updateFollow:
+            if (action.data.status === 401) {
+                return {
+                    ...state,
+                    info: action.data.data
+                }
+            }
             return {
                 ...state,
-                follow: action.data.following
+                follow: action.data.following,
+                follow_info: action.data1.info,
+                info: ''
             }
         case addPost:
             return {
@@ -132,6 +141,12 @@ export function frontend(state = initialState, action) {
                 posts: action.data.articles
             }
         case updatePost:
+            if (action.data.status === 401) {
+                return {
+                    ...state,
+                    info: action.data.data
+                }
+            }
             return {
                 ...state,
                 posts: action.data.articles

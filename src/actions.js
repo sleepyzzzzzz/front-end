@@ -175,16 +175,24 @@ export const getFollow = () => {
     };
 }
 
-export const updateFollow = (accountname, method) => {
+export const updateFollow = (username, method) => {
     if (method === 'add') {
         return (dispatch) => {
-            return axios.put(url('/following/' + accountname), { crossDomain: true }).then((res) => {
+            return axios.put(url('/following/' + username), { crossDomain: true }).then((res) => {
                 const data = res.data;
-                dispatch({
-                    type: updateFollow,
-                    accountname,
-                    method,
-                    data
+                return axios.get(url('/followinginfo'), { crossDomain: true }).then((res1) => {
+                    const data1 = res1.data;
+                    dispatch({
+                        type: getFollow,
+                        data,
+                        data1
+                    })
+                }).catch(e => {
+                    const data = e.response;
+                    dispatch({
+                        type: getFollow,
+                        data
+                    })
                 })
             }).catch(e => {
                 const data = e.response;
@@ -197,13 +205,21 @@ export const updateFollow = (accountname, method) => {
     }
     else {
         return (dispatch) => {
-            return axios.delete(url('/following/' + accountname), { crossDomain: true }).then((res) => {
+            return axios.delete(url('/following/' + username), { crossDomain: true }).then((res) => {
                 const data = res.data;
-                dispatch({
-                    type: updateFollow,
-                    accountname,
-                    method,
-                    data
+                return axios.get(url('/followinginfo'), { crossDomain: true }).then((res1) => {
+                    const data1 = res1.data;
+                    dispatch({
+                        type: getFollow,
+                        data,
+                        data1
+                    })
+                }).catch(e => {
+                    const data = e.response;
+                    dispatch({
+                        type: getFollow,
+                        data
+                    })
                 })
             }).catch(e => {
                 const data = e.response;
