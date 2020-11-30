@@ -3,8 +3,8 @@ import { InputGroup, FormControl, Button, Image } from 'react-bootstrap';
 import { Grid, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
 import { handleLogout, handleProfile, getStatus, updateStatus } from "../../actions";
-import Follow from './follow';
-import Posts from './post';
+import Follow from './following/index';
+import Articles from './articles/index';
 import "./main.css";
 
 class Main extends React.Component {
@@ -21,7 +21,6 @@ class Main extends React.Component {
         this.setState({
             [e.target.name]: e.target.value,
             msg: "",
-            post_display: this.props.posts
         });
     }
 
@@ -85,7 +84,7 @@ class Main extends React.Component {
 
                 <Divider orientation="vertical" flexItem />
 
-                <Posts />
+                <Articles />
             </Grid>
         );
     }

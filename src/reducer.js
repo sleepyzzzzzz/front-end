@@ -157,10 +157,11 @@ export function frontend(state = initialState, action) {
                 avatar: action.data.avatar
             };
         case handlePwd:
+            let new_pwd = new Array(action.pwd.length + 1).join('*');
             return {
                 ...state,
-                pwd: action.data.pwd
-            };
+                pwd: new_pwd
+            }
         case getInfo:
             return {
                 ...state,

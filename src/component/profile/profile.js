@@ -21,6 +21,10 @@ class Profile extends React.Component {
         this.upload = React.createRef();
     }
 
+    componentDidMount() {
+        this.props.getInfo();
+    }
+
     validation = (field, value, msg, oldvalue, reg) => {
         let idx = msg.indexOf(field);
         let validate = reg.test(value);
@@ -126,7 +130,6 @@ class Profile extends React.Component {
     }
 
     displayInfo = () => {
-        this.props.getInfo();
         return (
             <span>
                 username: {this.props.accountname}<br />

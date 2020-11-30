@@ -1,11 +1,11 @@
 import React from 'react';
-import { InputGroup, FormControl, Button, Image, ListGroup, Modal } from 'react-bootstrap';
-import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Grid } from '@material-ui/core';
 import { connect } from "react-redux";
-import { addPost, filterPost, updatePost } from "../../actions";
-import Commentlist from './comment';
+import { addPost, filterPost, updatePost } from "../../../actions";
+import { Post } from './post';
 
-class Posts extends React.Component {
+class Articles extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,10 +13,8 @@ class Posts extends React.Component {
             new_post: '',
             msg: '',
             search: '',
-            post_display: [],
             img: '',
             post_edit: '',
-            comment_edit: '',
             show_post: false,
             show_comment: false
         }
@@ -24,11 +22,15 @@ class Posts extends React.Component {
         this.inputPost = React.createRef();
     }
 
+    componentDidMount() {
+        let method = this.state.search ? 'id' : '';
+        this.props.filterPost(this.state.search, method);
+    }
+
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
             msg: "",
-            post_display: this.props.posts
         });
     }
 
@@ -51,103 +53,20 @@ class Posts extends React.Component {
         this.clearPost();
     }
 
-    handleClose = () => {
-        if (this.state.show_post) {
-            this.setState({ show_post: false });
-        }
-        if (this.state.show_comment) {
-            this.setState({ show_comment: false });
-        }
-    }
-
-    edit = () => {
-        this.setState({ show_post: true });
-    }
-
-    handlePost = (pid) => {
-        this.props.updatePost(this.state.post_edit, pid, -2);
-    }
-
-    comment = () => {
-        this.setState({ show_comment: true });
-    }
-
-    handleComment = (id) => {
-        this.props.updateComment(this.state.comment_edit, id);
-    }
-
-    displayEdit = (show, post, name) => {
-        return (
-            <div>
-                <Modal show={show} onHide={this.handleClose}>
-                    <Modal.Body>
-                        <textarea
-                            className="form-control"
-                            id="post_edit"
-                            name='post_edit'
-                            value={this.state.post_edit}
-                            onChange={this.onChange}
-                            placeholder={name === 'post' ? post.text : ''}
-                            rows="5"
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handlePost}>
-                            Update
-                                    </Button>
-                        <Button variant="secondary" onClick={this.handleClose}>
-                            Close
-                                    </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        );
+    handlePost = (text, pid, name) => {
+        let id = name === 'post' ? -2 : -1;
+        this.props.updatePost(text, pid, id);
     }
 
     displayPost = () => {
-        let method = this.state.search ? 'id' : ''
-        this.props.filterPost(this.state.search, method);
         let posts = this.props.posts;
-        let displaypost = posts.map(post => {
+        let displaypost = posts.map((post, index) => {
             return (
-                <ListGroup key={post.pid}>
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Avatar alt="img" src={post.avatar} />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={post.author}
-                            secondary={post.date}
-                        />
-                    </ListItem>
-                    <div className="post-info">
-                        <div className="post-text" ref={this.post_text}>
-                            <span>{post.text}</span>
-                        </div>
-                        {this.displayEdit(this.state.show_post, post, 'post')}
-                        <div className="post-img">
-                            <Image className="images" src={post.images} style={{ display: post.images ? 'block' : 'none' }}></Image>
-                        </div>
-                    </div>
-                    <br></br>
-                    <Grid container spacing={3} className="post-info">
-                        <Grid item xs={5}>
-                            <Button id="btn-edit" type="submit" onClick={this.edit}>
-                                Edit
-                            </Button>
-                        </Grid>
-                        <Grid item xs={5}>
-                            <Button id="btn-comment" type="submit" onClick={this.comment}>
-                                Comment
-                            </Button>
-                            {this.displayEdit(this.state.show_comment, post, 'comment')}
-                        </Grid>
-                        <Grid item xs={2}>
-                            {<Commentlist posts={post} />}
-                        </Grid>
-                    </Grid>
-                    <br></br>
-                </ListGroup>
+                <Post
+                    key={index}
+                    post={post}
+                    handlePost={this.handlePost}
+                />
             );
         });
         return displaypost;
@@ -228,4 +147,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, mapDispatchToProps)(Articles);

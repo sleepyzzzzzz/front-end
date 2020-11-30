@@ -2,24 +2,20 @@ import React from 'react';
 import { InputGroup, FormControl, Button, ListGroup } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getFollow, updateFollow } from "../../actions";
+import { getFollow, updateFollow } from "../../../actions";
 
 class Follow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             status: '',
-            new_post: '',
-            msg: '',
-            search: '',
-            post_display: [],
-            img: ''
+            img: '',
+            msg: ''
         }
-        this.upload = React.createRef();
-        this.inputPost = React.createRef();
-        this.post_text = React.createRef();
-        this.post_text_edit = React.createRef();
-        this.show = false;
+    }
+
+    componentDidMount() {
+        this.props.getFollow();
     }
 
     onChange = (e) => {
@@ -42,10 +38,9 @@ class Follow extends React.Component {
     }
 
     displayFollowedUsers = () => {
-        this.props.getFollow();
         let follow = this.props.follow_info;
         let displayfollow;
-        if (follow) {
+        if (this.state.follow) {
             displayfollow = follow.map(follow => {
                 return (
                     <ListGroup className="follow" key={follow.username}>
