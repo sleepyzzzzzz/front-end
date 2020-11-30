@@ -51,33 +51,21 @@ export const handleLogin = (accountname, pwd) => {
 export const handleRegister = (accountname, email, phone, birthdate, zipcode, password, avatar, displayname) => {
     let user = {
         username: accountname,
+        displayname: displayname,
         email: email,
         dob: birthdate,
         zipcode: zipcode,
-        password: password,
-        avatar: avatar
+        phone: phone,
+        avatar: avatar,
+        password: password
     };
-    let new_phone = {
-        username: accountname,
-        phone: phone
-    }
     return (dispatch) => {
         return axios.post(url('/register'), user, { crossDomain: true }).then((res) => {
             const data = res.data;
-            return axios.post(url('/phone'), new_phone, { crossDomain: true }).then((res1) => {
-                const data1 = res1.data;
-                dispatch({
-                    type: handleRegister,
-                    accountname, email, phone, birthdate, zipcode, password, avatar, displayname,
-                    data,
-                    data1
-                })
-            }).catch(e => {
-                const data = e.response;
-                dispatch({
-                    type: handleRegister,
-                    data
-                })
+            dispatch({
+                type: handleRegister,
+                accountname, email, phone, birthdate, zipcode, password, avatar, displayname,
+                data
             })
         }).catch(e => {
             const data = e.response;
