@@ -60,15 +60,18 @@ class Articles extends React.Component {
 
     displayPost = () => {
         let posts = this.props.posts;
-        let displaypost = posts.map((post, index) => {
-            return (
-                <Post
-                    key={index}
-                    post={post}
-                    handlePost={this.handlePost}
-                />
-            );
-        });
+        let displaypost = '';
+        if (posts) {
+            displaypost = posts.map((post, index) => {
+                return (
+                    <Post
+                        key={index}
+                        post={post}
+                        handlePost={this.handlePost}
+                    />
+                );
+            });
+        }
         return displaypost;
     }
 
