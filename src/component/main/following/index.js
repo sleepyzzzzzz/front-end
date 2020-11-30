@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button, ListGroup } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getFollow, updateFollow } from "../../../actions";
+import { getFollow, updateFollow, filterPost } from "../../../actions";
 
 class Follow extends React.Component {
     constructor(props) {
@@ -16,6 +16,13 @@ class Follow extends React.Component {
 
     componentDidMount() {
         this.props.getFollow();
+        this.props.filterPost('', '');
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.follow.length !== this.props.follow.length) {
+            this.props.filterPost('', '');
+        }
     }
 
     onChange = (e) => {
@@ -117,6 +124,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getFollow: () => dispatch(getFollow()),
         updateFollow: (username, method) => dispatch(updateFollow(username, method)),
+        filterPost: (value, method) => dispatch(filterPost(value, method)),
     }
 }
 
