@@ -1,7 +1,7 @@
 import {
     goLogin, goRegister, handleInfo, handleProfile, handleMain,
     handleLogin, handleRegister, handleLogout,
-    updateStatus, getFollow, updateFollow, addPost, filterPost, updatePost,
+    updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
     getInfo, getAvatar, getStatus
 } from "./actions";
@@ -19,6 +19,7 @@ const initialState = {
     follow: [],
     follow_info: [],
     posts: [],
+    all: [],
     info: '',
     path: '/'
 }
@@ -110,6 +111,17 @@ export function frontend(state = initialState, action) {
                 ...state,
                 status: action.status
             }
+        case getAll:
+            let all_users = [];
+            for (let i = 0; i < action.data.users.length; i++) {
+                let username = action.data.users[i].username;
+                let avatar = action.data.users[i].avatar;
+                all_users.push({ username: username, avatar: avatar });
+            }
+            return {
+                ...state,
+                all: all_users
+            }
         case getFollow:
             return {
                 ...state,
@@ -149,7 +161,8 @@ export function frontend(state = initialState, action) {
             }
             return {
                 ...state,
-                posts: action.data.articles
+                posts: action.data.articles,
+                info: ''
             }
         case handleEmail:
             return {

@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { Grid } from '@material-ui/core';
 import { connect } from "react-redux";
-import { addPost, filterPost, updatePost } from "../../../actions";
+import { addPost, filterPost, updatePost, handleInfo } from "../../../actions";
 import { Post } from './post';
 
 class Articles extends React.Component {
@@ -58,6 +58,10 @@ class Articles extends React.Component {
         this.props.updatePost(text, pid, id);
     }
 
+    handleComment = (text, pid, commentId) => {
+        this.props.updatePost(text, pid, commentId);
+    }
+
     displayPost = () => {
         let posts = this.props.posts;
         let displaypost = '';
@@ -68,6 +72,9 @@ class Articles extends React.Component {
                         key={index}
                         post={post}
                         handlePost={this.handlePost}
+                        handleComment={this.handleComment}
+                        handleInfo={this.props.handleInfo}
+                        {...this.props}
                     />
                 );
             });
@@ -147,6 +154,7 @@ const mapDispatchToProps = (dispatch) => {
         addPost: (accountname, new_post, img) => dispatch(addPost(accountname, new_post, img)),
         filterPost: (value, method) => dispatch(filterPost(value, method)),
         updatePost: (text, pid, id) => dispatch(updatePost(text, pid, id)),
+        handleInfo: () => dispatch(handleInfo()),
     }
 }
 

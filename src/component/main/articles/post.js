@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Image, ListGroup, Modal } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
-import Commentlist from './comment';
+import { Commentlist } from './comment/index';
 
 export class Post extends React.Component {
     constructor(props) {
@@ -14,7 +14,15 @@ export class Post extends React.Component {
             img: '',
             post_edit: '',
             show_post: false,
-            show_comment: false
+            show_comment: false,
+            update: false
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.post.text === this.props.post.text && this.props.info && !this.state.update) {
+            console.log(this.props.info);
+            this.setState({ msg: this.props.info, update: true });
         }
     }
 
@@ -46,6 +54,10 @@ export class Post extends React.Component {
         let name = this.state.show_post ? 'post' : 'comment';
         this.props.handlePost(this.state.post_edit, this.props.post.pid, name);
         this.handleClose();
+    }
+
+    updateComment = (text, commentId) => {
+        this.props.handleComment(text, this.props.post.pid, commentId);
     }
 
     displayEdit = () => {
@@ -112,7 +124,14 @@ export class Post extends React.Component {
                             </Button>
                         </Grid>
                         <Grid item xs={2}>
-                            {<Commentlist posts={this.props.post} />}
+                            <Commentlist
+                                posts={this.props.post}
+                                handleUpdate={this.updateComment}
+                                {...this.props}
+                            />
+                        </Grid>
+                        <Grid item xs={12} className='article-info'>
+                            <span>{this.state.msg}</span>
                         </Grid>
                     </Grid>
                     <br></br>

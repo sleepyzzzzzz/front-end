@@ -153,6 +153,24 @@ export const updateStatus = (status) => {
     }
 };
 
+export const getAll = () => {
+    return (dispatch) => {
+        return axios.get(url('/users'), { crossDomain: true }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: getAll,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: getAll,
+                data
+            })
+        })
+    };
+}
+
 export const getFollow = () => {
     return (dispatch) => {
         return axios.get(url('/following'), { crossDomain: true }).then((res) => {
@@ -305,7 +323,7 @@ export const updatePost = (text, pid, id) => {
             text: text
         }
     }
-    else if (id === -1) {
+    else {
         post = {
             text: text,
             commentId: id

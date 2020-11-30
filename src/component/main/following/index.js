@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputGroup, FormControl, Button, ListGroup } from 'react-bootstrap';
+import { InputGroup, FormControl, Button, ListGroup, Tabs, Tab } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getFollow, updateFollow, filterPost } from "../../../actions";
+import { getAll, getFollow, updateFollow, filterPost } from "../../../actions";
 
 class Follow extends React.Component {
     constructor(props) {
@@ -16,6 +16,7 @@ class Follow extends React.Component {
 
     componentDidMount() {
         this.props.getFollow();
+        this.props.getAll();
         this.props.filterPost('', '');
     }
 
@@ -72,37 +73,71 @@ class Follow extends React.Component {
         }
         return displayfollow;
     }
+
+    displayAll = () => {
+        let all = this.props.all;
+        let displayall = '';
+        if (all) {
+            displayall = all.map((user, index) => {
+                return (
+                    <ListGroup className="follow" key={index}>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar alt="img.png" src={user.avatar} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={user.username}
+                            />
+                        </ListItem>
+                        <Divider light />
+                    </ListGroup>
+                );
+            });
+        }
+        else {
+            displayall = "";
+        }
+        return displayall;
+    }
+
     render() {
         return (
-            <Grid item xs={12} className="User-Follow">
-                <Grid>
-                    <Grid item xs={12} className="wrapper-follower">
-                        {this.displayFollowedUsers()}
+            <Tabs defaultActiveKey="Following" id="controlled-tab">
+                <Tab eventKey="all" title="All Users">
+                    <Grid item xs={12} className="User-Follow">
+                        {this.displayAll()}
                     </Grid>
-                    <Grid item xs={12}>
-                        <div>
-                            <InputGroup className="md-3">
-                                <FormControl
-                                    className="form-control"
-                                    value={this.state.new_followed_user}
-                                    name="new_followed_user"
-                                    id="new_followed_user"
-                                    placeholder="Username for user want to follow"
-                                    onChange={this.onChange}
-                                />
-                                <InputGroup.Append>
-                                    <Button id="btn-addfollow" type="submit" onClick={this.addFollowed}>
-                                        Add
+                </Tab>
+                <Tab eventKey="follow" title="Following">
+                    <Grid item xs={12} className="User-Follow">
+                        <Grid item xs={12} className="wrapper-follower">
+                            {this.displayFollowedUsers()}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div>
+                                <InputGroup className="md-3">
+                                    <FormControl
+                                        className="form-control"
+                                        value={this.state.new_followed_user}
+                                        name="new_followed_user"
+                                        id="new_followed_user"
+                                        placeholder="Username for user want to follow"
+                                        onChange={this.onChange}
+                                    />
+                                    <InputGroup.Append>
+                                        <Button id="btn-addfollow" type="submit" onClick={this.addFollowed}>
+                                            Add
                                     </Button>
-                                </InputGroup.Append>
-                            </InputGroup>
-                        </div>
-                        <div className="follow-info">
-                            <span>{this.props.info}</span>
-                        </div>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </div>
+                            <div className="follow-info">
+                                <span>{this.props.info}</span>
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
+                </Tab>
+            </Tabs>
         );
     }
 }
@@ -116,12 +151,14 @@ const mapStateToProps = (state) => {
         follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
+        all: state.all,
         info: state.info,
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getAll: () => dispatch(getAll()),
         getFollow: () => dispatch(getFollow()),
         updateFollow: (username, method) => dispatch(updateFollow(username, method)),
         filterPost: (value, method) => dispatch(filterPost(value, method)),
