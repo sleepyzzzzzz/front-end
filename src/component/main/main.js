@@ -99,8 +99,7 @@ const mapStateToProps = (state) => {
         follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
-        info: state.info,
-        path: state.path
+        info: state.info
     };
 }
 

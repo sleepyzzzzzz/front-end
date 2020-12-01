@@ -9,8 +9,11 @@ import "./app.css";
 class App extends React.Component {
 
   render() {
-    if (this.props.path !== '/') {
-      return <Redirect to={this.props.path} />
+    let username = document.cookie.split("=")[1];
+    if (typeof (username) !== "undefined") {
+      if ((this.props.redirect || username !== "")) {
+        return <Redirect to={'/main'} />
+      }
     }
     return (
       <Grid>
@@ -36,9 +39,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    accountname: state.accountname,
-    info: state.info,
-    path: state.path
+    info: state.info
   };
 }
 

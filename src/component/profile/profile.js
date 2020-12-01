@@ -275,8 +275,7 @@ const mapStateToProps = (state) => {
         pwd: state.pwd,
         avatar: state.avatar,
         status: state.status,
-        info: state.info,
-        path: state.path
+        info: state.info
     };
 }
 

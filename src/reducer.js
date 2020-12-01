@@ -33,9 +33,12 @@ export function frontend(state = initialState, action) {
                 info: ""
             }
         case goProfile:
+            let pwds = new Array(state.accountname.length + 1).join('*');
+            let pwd_display = state.pwd !== pwds && state.pwd !== '' ? state.pwd : pwds;
             return {
                 ...state,
                 path: '/profile',
+                pwd: pwd_display,
                 info: ""
             }
         case handleInfo:
@@ -50,10 +53,10 @@ export function frontend(state = initialState, action) {
                     info: action.data.data
                 }
             }
+            document.cookie = "user=" + action.data.username;
             return {
                 ...state,
                 accountname: action.data.username,
-                pwd: action.pwd.replace(/./g, "*"),
                 path: '/main',
                 info: ''
             };
@@ -74,6 +77,7 @@ export function frontend(state = initialState, action) {
                 path: '/register'
             }
         case handleLogout:
+            document.cookie = "user=";
             return {
                 ...state,
                 login_user: '',
