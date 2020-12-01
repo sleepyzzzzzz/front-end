@@ -1,6 +1,6 @@
 import {
     goLogin, goRegister, handleInfo, handleProfile, handleMain,
-    handleLogin, handleRegister, handleLogout,
+    handleLogin, googleLogin, handleRegister, handleLogout,
     updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
     getInfo, getAvatar, getStatus
@@ -69,6 +69,10 @@ export function frontend(state = initialState, action) {
                 path: "/main",
                 info: ''
             };
+        case googleLogin:
+            return {
+                ...state
+            }
         case handleRegister:
             if (action.data.status === 401) {
                 return {
@@ -113,10 +117,12 @@ export function frontend(state = initialState, action) {
             }
         case getAll:
             let all_users = [];
-            for (let i = 0; i < action.data.users.length; i++) {
-                let username = action.data.users[i].username;
-                let avatar = action.data.users[i].avatar;
-                all_users.push({ username: username, avatar: avatar });
+            if (action.data.users) {
+                for (let i = 0; i < action.data.users.length; i++) {
+                    let username = action.data.users[i].username;
+                    let avatar = action.data.users[i].avatar;
+                    all_users.push({ username: username, avatar: avatar });
+                }
             }
             return {
                 ...state,

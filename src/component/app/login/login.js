@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { handleLogin } from "../../../actions";
+import { handleLogin, googleLogin } from "../../../actions";
 import "./login.css";
 
 class Login extends React.Component {
@@ -93,6 +93,9 @@ class Login extends React.Component {
                             Login
                         </Button>
                     </Form.Row>
+                    <Form.Row>
+                        <Button id='btn-google' onClick={() => this.props.googleLogin()}>Login with Google</Button>
+                    </Form.Row>
                     <br></br>
                     <Form.Row>
                         <span className="login-info">{this.props.info}</span>
@@ -114,6 +117,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleLogin: (accountname, pwd) => dispatch(handleLogin(accountname, pwd)),
+        googleLogin: () => dispatch(googleLogin()),
     }
 }
 

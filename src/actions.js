@@ -48,6 +48,15 @@ export const handleLogin = (accountname, pwd) => {
     }
 };
 
+export const googleLogin = () => {
+    return (dispatch) => {
+        window.location = 'http://localhost:3000/google';
+        dispatch({
+            type: googleLogin
+        })
+    }
+};
+
 export const handleRegister = (accountname, email, phone, birthdate, zipcode, password, avatar, displayname) => {
     let user = {
         username: accountname,
