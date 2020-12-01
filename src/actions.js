@@ -3,24 +3,16 @@ export const url = path => `http://localhost:3000${path}`;
 // export const url = path => `https://yz166-hw6-backend.herokuapp.com${path}`;
 axios.defaults.withCredentials = true;
 
-export const goLogin = () => ({
-    type: goLogin
+export const goMain = () => ({
+    type: goMain
 });
 
-export const goRegister = () => ({
-    type: goRegister
+export const goProfile = () => ({
+    type: goProfile
 });
 
 export const handleInfo = () => ({
     type: handleInfo
-});
-
-export const handleProfile = () => ({
-    type: handleProfile
-});
-
-export const handleMain = () => ({
-    type: handleMain
 });
 
 // Landing

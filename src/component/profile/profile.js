@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container, Image, Card, Form, Button } from 'react-bootstrap';
 import { Grid } from '@material-ui/core';
-import { handleMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd, } from "../../actions";
+import { goMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd, } from "../../actions";
 import "./profile.css";
 
 class Profile extends React.Component {
@@ -148,7 +149,7 @@ class Profile extends React.Component {
                     <h5 className="title">Welcome to Profile Page</h5>
                 </Grid>
                 <Grid item xs={12} sm={2}>
-                    <Button onClick={() => this.props.handleMain()}>Main Page</Button>
+                    <Link className="nav-link" to="/main" onClick={() => this.props.goMain()}>Main Page</Link>
                 </Grid>
                 <Grid item xs={6}>
                     <Grid item xs={6} id="profile-img">
@@ -282,7 +283,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleMain: () => dispatch(handleMain()),
+        goMain: () => dispatch(goMain()),
         getAvatar: () => dispatch(getAvatar()),
         getInfo: () => dispatch(getInfo()),
         handleEmail: (email) => dispatch(handleEmail(email)),

@@ -1,5 +1,5 @@
 import {
-    goLogin, goRegister, handleInfo, handleProfile, handleMain,
+    goProfile, goMain, handleInfo,
     handleLogin, googleLogin, handleRegister, handleLogout,
     updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
@@ -26,33 +26,23 @@ const initialState = {
 
 export function frontend(state = initialState, action) {
     switch (action.type) {
-        case goLogin:
+        case goMain:
+            window.location.href = '/main';
             return {
                 ...state,
-                path: '/login',
+                path: '/main',
                 info: ""
             }
-        case goRegister:
-            return {
-                ...state,
-                path: '/register',
-                info: ""
-            }
-        case handleInfo:
-            return {
-                ...state,
-                info: ""
-            }
-        case handleProfile:
+        case goProfile:
+            window.location.href = '/profile';
             return {
                 ...state,
                 path: '/profile',
                 info: ""
             }
-        case handleMain:
+        case handleInfo:
             return {
                 ...state,
-                path: '/main',
                 info: ""
             }
         case handleLogin:
@@ -62,6 +52,7 @@ export function frontend(state = initialState, action) {
                     info: action.data.data
                 }
             }
+            window.location.href = '/main';
             return {
                 ...state,
                 accountname: action.data.username,
@@ -86,6 +77,7 @@ export function frontend(state = initialState, action) {
                 path: '/register'
             }
         case handleLogout:
+            window.location.href = '/';
             return {
                 ...state,
                 login_user: '',

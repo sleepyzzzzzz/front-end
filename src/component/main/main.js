@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button, Image } from 'react-bootstrap';
 import { Grid, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { handleLogout, handleProfile, getStatus, updateStatus } from "../../actions";
+import { handleLogout, goProfile, getStatus, updateStatus } from "../../actions";
 import Follow from './following/index';
 import Articles from './articles/index';
 import "./main.css";
@@ -50,7 +50,7 @@ class Main extends React.Component {
                                 <Button onClick={() => this.props.handleLogout()}>Log Out</Button>
                             </Grid>
                             <Grid item xs={6} className="links">
-                                <Button onClick={() => this.props.handleProfile()}>Profile</Button>
+                                <Button onClick={() => this.props.goProfile()}>Profile</Button>
                             </Grid>
                             <Grid item xs={12}>
                                 <div id="user-info">
@@ -99,13 +99,13 @@ const mapStateToProps = (state) => {
         follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
-        info: state.info,
+        info: state.info
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleProfile: () => dispatch(handleProfile()),
+        goProfile: () => dispatch(goProfile()),
         handleLogout: () => dispatch(handleLogout()),
         getStatus: () => dispatch(getStatus()),
         updateStatus: (status) => dispatch(updateStatus(status)),

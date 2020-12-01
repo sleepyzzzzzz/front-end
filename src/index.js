@@ -15,7 +15,7 @@ const store = createStore(frontend, applyMiddleware(thunk));
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Routers />
+      {Routers}
     </Router>
   </Provider>,
   document.getElementById('root')
