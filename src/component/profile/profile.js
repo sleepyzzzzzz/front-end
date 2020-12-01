@@ -260,8 +260,6 @@ class Profile extends React.Component {
                         </Form>
                     </Grid>
                 </Grid>
-
-
             </Grid >
         );
     }
@@ -277,7 +275,8 @@ const mapStateToProps = (state) => {
         pwd: state.pwd,
         avatar: state.avatar,
         status: state.status,
-        info: state.info
+        info: state.info,
+        path: state.path
     };
 }
 

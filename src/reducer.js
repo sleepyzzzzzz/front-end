@@ -27,14 +27,12 @@ const initialState = {
 export function frontend(state = initialState, action) {
     switch (action.type) {
         case goMain:
-            window.location.href = '/main';
             return {
                 ...state,
                 path: '/main',
                 info: ""
             }
         case goProfile:
-            window.location.href = '/profile';
             return {
                 ...state,
                 path: '/profile',
@@ -52,12 +50,11 @@ export function frontend(state = initialState, action) {
                     info: action.data.data
                 }
             }
-            window.location.href = '/main';
             return {
                 ...state,
                 accountname: action.data.username,
                 pwd: action.pwd.replace(/./g, "*"),
-                path: "/main",
+                path: '/main',
                 info: ''
             };
         case googleLogin:
@@ -77,7 +74,6 @@ export function frontend(state = initialState, action) {
                 path: '/register'
             }
         case handleLogout:
-            window.location.href = '/';
             return {
                 ...state,
                 login_user: '',

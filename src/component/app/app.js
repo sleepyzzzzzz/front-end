@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { Nav, Navbar } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { handleInfo } from "../../actions";
 import { Grid } from '@material-ui/core';
 import "./app.css";
@@ -9,6 +9,9 @@ import "./app.css";
 class App extends React.Component {
 
   render() {
+    if (this.props.path !== '/') {
+      return <Redirect to={this.props.path} />
+    }
     return (
       <Grid>
         <Navbar className="navbar">
@@ -33,7 +36,9 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    info: state.info
+    accountname: state.accountname,
+    info: state.info,
+    path: state.path
   };
 }
 

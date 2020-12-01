@@ -83,6 +83,7 @@ export const handleLogout = () => {
     return (dispatch) => {
         return axios.put(url('/logout'), { crossDomain: true }).then((res) => {
             const data = res.data;
+            window.location.href = '/';
             dispatch({
                 type: handleLogout,
                 data

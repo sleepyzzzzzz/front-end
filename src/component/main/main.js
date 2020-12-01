@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { InputGroup, FormControl, Button, Image } from 'react-bootstrap';
 import { Grid, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
@@ -43,14 +44,13 @@ class Main extends React.Component {
         return (
             <Grid container spacing={3} id="main-page">
                 <Grid item xs={5}>
-
                     <Grid item xs={12} className="User-Info">
                         <Grid container spacing={3}>
                             <Grid item xs={6} className="links">
-                                <Button onClick={() => this.props.handleLogout()}>Log Out</Button>
+                                <Link to="/main" onClick={() => this.props.handleLogout()}>Log Out</Link>
                             </Grid>
                             <Grid item xs={6} className="links">
-                                <Button onClick={() => this.props.goProfile()}>Profile</Button>
+                                <Link to="/profile" onClick={() => this.props.goProfile()}>Profile</Link>
                             </Grid>
                             <Grid item xs={12}>
                                 <div id="user-info">
@@ -99,7 +99,8 @@ const mapStateToProps = (state) => {
         follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
-        info: state.info
+        info: state.info,
+        path: state.path
     };
 }
 
