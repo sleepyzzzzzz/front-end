@@ -93,6 +93,7 @@ class Login extends React.Component {
                             Login
                         </Button>
                     </Form.Row>
+                    <br></br>
                     <Form.Row>
                         <Button id='btn-google' onClick={() => this.props.googleLogin()}>Login with Google</Button>
                     </Form.Row>

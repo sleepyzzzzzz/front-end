@@ -22,7 +22,8 @@
   font: 300px;
 }
 
-#btn-login #btn-google {
+#btn-login,
+#btn-google {
   border-radius: 8em;
   font-weight: bold;
   font-family: Snell Roundhand, cursive;
