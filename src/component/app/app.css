@@ -14,8 +14,12 @@
   text-align: center;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
 .nav-link {
-  color: beige;
+  color: white;
   font-size: 25px;
   font-family: URW Chancery L, cursive;
   background-color: lightskyblue;
