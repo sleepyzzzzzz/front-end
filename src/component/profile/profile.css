@@ -53,7 +53,8 @@
   text-align: center;
 }
 
-#btn-update-info {
+#btn-update-info,
+#btn-reset-update-info {
   border-radius: 8em;
   font-weight: bold;
   font-family: Snell Roundhand, cursive;
@@ -69,4 +70,9 @@
   font-size: 15px;
   font-family: Snell Roundhand, cursive;
   text-align: center;
+}
+
+#img-update {
+  text-align: center;
+  margin: auto;
 }

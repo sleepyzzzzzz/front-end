@@ -76,7 +76,6 @@ class Profile extends React.Component {
 
     reset = () => {
         this.setState({
-            accountname: '',
             displayname: '',
             email: '',
             phone: '',
@@ -172,13 +171,14 @@ class Profile extends React.Component {
                     <Grid item xs={6} className="updates">
                         <Form noValidate className="form-update" onSubmit={this.onSubmit}>
                             <h1>Update Info</h1>
-                            <Grid item xs={3} style={{ textAlign: "center" }}>
+                            <Grid item xs={6} id="img-update">
                                 <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                                 <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
                                     <img className="btn-upload-img" alt="" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
                                     <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
                                 </Button>
                             </Grid>
+                            <br></br>
                             <Form.Row>
                                 <Grid item xs={6}>
                                     <Form.Group>
@@ -252,7 +252,13 @@ class Profile extends React.Component {
                             <Form.Row id="profile-btn">
                                 <Button id="btn-update-info" type="submit">
                                     Update Info
-                            </Button>
+                                </Button>
+                            </Form.Row>
+                            <br></br>
+                            <Form.Row id='profile-reset-btn'>
+                                <Button id="btn-reset-update-info" type="reset" onClick={this.reset}>
+                                    Clear
+                                </Button>
                             </Form.Row>
                             <div>
                                 <span id="update-info">{this.state.info}</span>

@@ -21,7 +21,6 @@ export class Post extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.post.text === this.props.post.text && this.props.info && !this.state.update) {
-            console.log(this.props.info);
             this.setState({ msg: this.props.info, update: true });
         }
     }
