@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { InputGroup, FormControl, Button, Image } from 'react-bootstrap';
 import { Grid, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { handleLogout, goProfile, getStatus, updateStatus } from "../../actions";
+import { getAvatar, handleLogout, goProfile, getStatus, updateStatus } from "../../actions";
 import Follow from './following/index';
 import Articles from './articles/index';
 import "./main.css";
@@ -18,6 +18,11 @@ class Main extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getAvatar();
+        this.props.getStatus();
+    }
+
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -27,7 +32,6 @@ class Main extends React.Component {
 
     // User
     displayStatus = () => {
-        this.props.getStatus();
         return (
             <span>
                 {this.props.status}
@@ -105,9 +109,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getAvatar: () => dispatch(getAvatar()),
+        getStatus: () => dispatch(getStatus()),
         goProfile: () => dispatch(goProfile()),
         handleLogout: () => dispatch(handleLogout()),
-        getStatus: () => dispatch(getStatus()),
         updateStatus: (status) => dispatch(updateStatus(status)),
     }
 }

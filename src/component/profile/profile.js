@@ -16,6 +16,7 @@ class Profile extends React.Component {
             zipcode: '',
             pwd: '',
             img: '',
+            img_display: '',
             info: '',
             msg: []
         };
@@ -24,6 +25,7 @@ class Profile extends React.Component {
 
     componentDidMount() {
         this.props.getInfo();
+        this.props.getAvatar();
     }
 
     validation = (field, value, msg, oldvalue, reg) => {
@@ -82,6 +84,7 @@ class Profile extends React.Component {
             zipcode: '',
             pwd: '',
             img: '',
+            img_display: '',
             info: '',
             msg: []
         });
@@ -93,7 +96,13 @@ class Profile extends React.Component {
 
     handlePhoto = (e) => {
         if (e.target.files && e.target.files[0]) {
-            this.setState({ img: URL.createObjectURL(e.target.files[0]) });
+            let image = e.target.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            this.setState({
+                img: e.target.files[0],
+                img_display: URL.createObjectURL(e.target.files[0])
+            });
         }
     }
 
@@ -150,7 +159,7 @@ class Profile extends React.Component {
                 <Grid item xs={12} sm={2}>
                     <Link className="nav-link" to="/main" onClick={() => this.props.goMain()}>Main Page</Link>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} className='profile-pgs'>
                     <Grid item xs={6} id="profile-img">
                         <Image alt="img" id="user-img-profile" src={this.props.avatar} roundedCircle></Image>
                     </Grid>
@@ -167,15 +176,15 @@ class Profile extends React.Component {
                         </Container>
                     </Grid>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} className='profile-pgs'>
                     <Grid item xs={6} className="updates">
                         <Form noValidate className="form-update" onSubmit={this.onSubmit}>
                             <h1>Update Info</h1>
                             <Grid item xs={6} id="img-update">
                                 <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                                 <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
-                                    <img className="btn-upload-img" alt="" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
-                                    <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
+                                    <img className="btn-upload-img" alt="" src={this.state.img_display} style={{ display: this.state.img_display ? "block" : "none" }} /><br></br>
+                                    <span className="btn-upload-text" style={{ display: this.state.img_display ? "none" : "block" }}>Add Image</span>
                                 </Button>
                             </Grid>
                             <br></br>

@@ -1,6 +1,6 @@
 import axios from 'axios';
-export const url = path => `http://localhost:3000${path}`;
-// export const url = path => `https://yz166-final-backend.herokuapp.com${path}`;
+// export const url = path => `http://localhost:3000${path}`;
+export const url = path => `https://yz166-final-backend.herokuapp.com${path}`;
 axios.defaults.withCredentials = true;
 
 export const goMain = () => ({
@@ -49,7 +49,7 @@ export const googleLogin = () => {
     }
 };
 
-export const handleRegister = (accountname, email, phone, birthdate, zipcode, password, avatar, displayname) => {
+export const handleRegister = (accountname, email, phone, birthdate, zipcode, password, displayname) => {
     let user = {
         username: accountname,
         displayname: displayname,
@@ -57,7 +57,6 @@ export const handleRegister = (accountname, email, phone, birthdate, zipcode, pa
         dob: birthdate,
         zipcode: zipcode,
         phone: phone,
-        avatar: avatar,
         password: password
     };
     return (dispatch) => {
@@ -65,7 +64,7 @@ export const handleRegister = (accountname, email, phone, birthdate, zipcode, pa
             const data = res.data;
             dispatch({
                 type: handleRegister,
-                accountname, email, phone, birthdate, zipcode, password, avatar, displayname,
+                accountname, email, phone, birthdate, zipcode, password, displayname,
                 data
             })
         }).catch(e => {
@@ -406,11 +405,10 @@ export const handleZipcode = (zipcode) => {
 }
 
 export const handleAvatar = (avatar) => {
-    let new_avatar = {
-        avatar: avatar
-    }
+    const fd = new FormData();
+    fd.append('image', avatar);
     return (dispatch) => {
-        return axios.put(url('/avatar'), new_avatar, { crossDomain: true }).then((res) => {
+        return axios.put(url('/avatar'), fd, { crossDomain: true, }).then((res) => {
             const data = res.data;
             dispatch({
                 type: handleAvatar,
