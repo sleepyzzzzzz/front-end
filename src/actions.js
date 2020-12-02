@@ -268,7 +268,7 @@ export const addPost = (accountname, new_post, img) => {
 export const filterPost = (value, method) => {
     if (method) {
         return (dispatch) => {
-            return axios.get(url('/articles/' + value), { crossDomain: true }).then((res) => {
+            return axios.get(url('/article/' + value), { crossDomain: true }).then((res) => {
                 const data = res.data;
                 dispatch({
                     type: filterPost,

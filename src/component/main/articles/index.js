@@ -28,6 +28,9 @@ class Articles extends React.Component {
     }
 
     onChange = (e) => {
+        if (e.target.name === 'search' && e.target.value === '') {
+            this.props.filterPost(this.state.search, '');
+        }
         this.setState({
             [e.target.name]: e.target.value,
             msg: "",
@@ -60,6 +63,11 @@ class Articles extends React.Component {
 
     handleComment = (text, pid, commentId) => {
         this.props.updatePost(text, pid, commentId);
+    }
+
+    filterpost = () => {
+        let method = this.state.search ? 'id' : '';
+        this.props.filterPost(this.state.search, method);
     }
 
     displayPost = () => {
@@ -124,6 +132,9 @@ class Articles extends React.Component {
                                     placeholder="Search Here"
                                     onChange={this.onChange}
                                 />
+                                <InputGroup.Append>
+                                    <Button id="btn-search" variant="outline-secondary" onClick={this.filterpost}>Search</Button>
+                                </InputGroup.Append>
                             </InputGroup>
                         </Grid>
                     </Grid>

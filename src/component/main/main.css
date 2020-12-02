@@ -51,8 +51,7 @@
 #btn-update,
 #btn-addfollow,
 .btn-unfollow,
-#searchauthor,
-#searchtext {
+#btn-search {
   border-radius: 5px;
   color: whitesmoke;
   font-weight: bold;
