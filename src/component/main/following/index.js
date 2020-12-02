@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, FormControl, Button, ListGroup, Tabs, Tab } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getAll, getFollow, updateFollow, filterPost } from "../../../actions";
+import { getAll, getFollow, updateFollow, filterPost, handleInfo } from "../../../actions";
 
 class Follow extends React.Component {
     constructor(props) {
@@ -10,7 +10,8 @@ class Follow extends React.Component {
         this.state = {
             new_followed_user: '',
             img: '',
-            msg: ''
+            msg: '',
+            update: false
         }
     }
 
@@ -24,6 +25,10 @@ class Follow extends React.Component {
         if (prevProps.follow.length !== this.props.follow.length) {
             this.props.filterPost('', '');
         }
+        if (this.state.update && this.props.info !== '') {
+            this.setState({ msg: this.props.info, update: false });
+            this.props.handleInfo();
+        }
     }
 
     onChange = (e) => {
@@ -35,12 +40,13 @@ class Follow extends React.Component {
 
     unfollow = (e) => {
         this.props.updateFollow(e.target.id, "unfollow");
+        this.setState({ msg: '', update: true });
     }
 
     addFollowed = () => {
         if (this.state.new_followed_user !== "") {
             this.props.updateFollow(this.state.new_followed_user, "add");
-            this.setState({ new_followed_user: "" });
+            this.setState({ new_followed_user: "", msg: '', update: true });
         }
     }
 
@@ -102,7 +108,7 @@ class Follow extends React.Component {
 
     render() {
         return (
-            <Tabs defaultActiveKey="Following" id="controlled-tab">
+            <Tabs defaultActiveKey="follow" id="controlled-tab">
                 <Tab eventKey="all" title="All Users">
                     <Grid item xs={12} className="User-Follow">
                         {this.displayAll()}
@@ -132,7 +138,7 @@ class Follow extends React.Component {
                                 </InputGroup>
                             </div>
                             <div className="follow-info">
-                                <span>{this.props.info}</span>
+                                <span>{this.state.msg}</span>
                             </div>
                         </Grid>
                     </Grid>
@@ -162,6 +168,7 @@ const mapDispatchToProps = (dispatch) => {
         getFollow: () => dispatch(getFollow()),
         updateFollow: (username, method) => dispatch(updateFollow(username, method)),
         filterPost: (value, method) => dispatch(filterPost(value, method)),
+        handleInfo: () => dispatch(handleInfo()),
     }
 }
 

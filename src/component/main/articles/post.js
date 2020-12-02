@@ -20,8 +20,9 @@ export class Post extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.post.text === this.props.post.text && this.props.info && !this.state.update) {
-            this.setState({ msg: this.props.info, update: true });
+        if (prevProps.post.text === this.props.post.text && this.props.info && this.state.update) {
+            this.setState({ msg: this.props.info, update: false });
+            this.props.handleInfo();
         }
     }
 
@@ -52,6 +53,7 @@ export class Post extends React.Component {
     handleUpdate = () => {
         let name = this.state.show_post ? 'post' : 'comment';
         this.props.handlePost(this.state.post_edit, this.props.post.pid, name);
+        this.setState({ update: true });
         this.handleClose();
     }
 

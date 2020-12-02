@@ -9,13 +9,18 @@ export class Comment extends React.Component {
         this.state = {
             comment_edit: '',
             msg: '',
-            show: false
+            show: false,
+            update: false
         }
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.comment.content !== this.props.comment.content) {
             this.setState({ show: false });
+            this.props.handleInfo();
+        }
+        if (this.state.update && this.props.info) {
+            this.setState({ msg: this.props.info, update: false });
         }
     }
 
@@ -27,7 +32,7 @@ export class Comment extends React.Component {
     }
 
     handleClose = () => {
-        this.setState({ comment_edit: '', show: false });
+        this.setState({ comment_edit: '', msg: '', show: false });
         this.props.handleInfo();
     }
 
@@ -38,6 +43,7 @@ export class Comment extends React.Component {
 
     handleUpdate = () => {
         this.props.handleUpdate(this.state.comment_edit, this.props.comment.id);
+        this.setState({ comment_edit: '', update: true });
     }
 
     displayEdit = () => {
@@ -59,7 +65,7 @@ export class Comment extends React.Component {
                         <Button id="btn-comment-back" onClick={this.handleClose}>Back</Button>
                     </Grid>
                     <Grid item xs={12} className='comment-info'>
-                        <span>{this.props.info}</span>
+                        <span>{this.state.msg}</span>
                     </Grid>
                 </Grid>
             </div>
