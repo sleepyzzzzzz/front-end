@@ -1,6 +1,7 @@
 import React from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { Grid } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import { connect } from "react-redux";
 import { addPost, filterPost, updatePost, handleInfo } from "../../../actions";
 import { Post } from './post';
@@ -132,6 +133,9 @@ class Articles extends React.Component {
                     <Grid item xs={12}>
                         <Grid item xs={12}>
                             <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text><SearchIcon /></InputGroup.Text>
+                                </InputGroup.Prepend>
                                 <FormControl
                                     id="search"
                                     name="search"

@@ -1,6 +1,7 @@
 import React from 'react';
 import { InputGroup, FormControl, Button, ListGroup, Tabs, Tab } from 'react-bootstrap';
 import { Grid, Avatar, ListItem, ListItemText, ListItemAvatar, Divider } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import { connect } from "react-redux";
 import { getAll, getFollow, updateFollow, filterPost, handleInfo } from "../../../actions";
 
@@ -122,6 +123,9 @@ class Follow extends React.Component {
                         <Grid item xs={12}>
                             <div>
                                 <InputGroup className="md-3">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Text><SearchIcon /></InputGroup.Text>
+                                    </InputGroup.Prepend>
                                     <FormControl
                                         className="form-control"
                                         value={this.state.new_followed_user}
