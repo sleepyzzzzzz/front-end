@@ -55,7 +55,7 @@ class Articles extends React.Component {
     }
 
     clearPost = () => {
-        this.setState({ new_post: "", img: "" });
+        this.setState({ new_post: "", img: "", img_display: '' });
     }
 
     addPost = () => {
