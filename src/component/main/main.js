@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { InputGroup, FormControl, Button, Image } from 'react-bootstrap';
-import { Grid, Divider } from '@material-ui/core';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Grid, Divider, Avatar } from '@material-ui/core';
 import { connect } from "react-redux";
 import { getAvatar, handleLogout, goProfile, getStatus, updateStatus } from "../../actions";
 import Follow from './following/index';
@@ -58,7 +58,7 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs={12}>
                                 <div id="user-info">
-                                    <Image alt="" id="user-img" src={this.props.avatar} roundedCircle></Image>
+                                    <Avatar id="user-img" alt='' src={this.props.avatar} />
                                     <h3>{this.props.accountname}</h3>
                                     {this.displayStatus()}
                                     <InputGroup className="mb-3">

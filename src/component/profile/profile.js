@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Container, Image, Card, Form, Button } from 'react-bootstrap';
-import { Grid } from '@material-ui/core';
+import { Container, Card, Form, Button } from 'react-bootstrap';
+import { Grid, Avatar } from '@material-ui/core';
 import { goMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd, } from "../../actions";
 import "./profile.css";
 
@@ -161,7 +161,7 @@ class Profile extends React.Component {
                 </Grid>
                 <Grid item xs={6} className='profile-pgs'>
                     <Grid item xs={6} id="profile-img">
-                        <Image alt="img" id="user-img-profile" src={this.props.avatar} roundedCircle></Image>
+                        <Avatar id="user-img-profile" alt='' src={this.props.avatar} />
                     </Grid>
                     <Grid item xs={6} className="updates">
                         <Container id="container_display">
@@ -183,7 +183,7 @@ class Profile extends React.Component {
                             <Grid item xs={6} id="img-update">
                                 <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                                 <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
-                                    <img className="btn-upload-img" alt="" src={this.state.img_display} style={{ display: this.state.img_display ? "block" : "none" }} /><br></br>
+                                    <img className="btn-upload-img" alt="default.png" src={this.state.img_display} style={{ display: this.state.img_display ? "block" : "none" }} /><br></br>
                                     <span className="btn-upload-text" style={{ display: this.state.img_display ? "none" : "block" }}>Add Image</span>
                                 </Button>
                             </Grid>
