@@ -93,7 +93,7 @@ export class Comment extends React.Component {
                             </React.Fragment>
                         }
                     />
-                    <span id="comment-time" className="text-muted">{this.props.comment.date}</span>
+                    <span id="comment-time" className="text-muted">{new Date(this.props.comment.date).toLocaleString()}</span>
                     <IconButton onClick={this.edit}>
                         <EditIcon />
                     </IconButton>

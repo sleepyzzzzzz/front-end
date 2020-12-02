@@ -101,7 +101,7 @@ export class Post extends React.Component {
                         </ListItemAvatar>
                         <ListItemText
                             primary={this.props.post.author}
-                            secondary={this.props.post.date}
+                            secondary={new Date(this.props.post.date).toLocaleString()}
                         />
                     </ListItem>
                     <div className="post-info">
