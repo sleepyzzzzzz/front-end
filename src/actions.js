@@ -240,12 +240,11 @@ export const updateFollow = (username, method) => {
 };
 
 export const addPost = (accountname, new_post, img) => {
-    let post = {
-        text: new_post,
-        img: img
-    };
+    const fd = new FormData();
+    fd.append('text', new_post)
+    fd.append('image', img);
     return (dispatch) => {
-        return axios.post(url('/article'), post, { crossDomain: true }).then((res) => {
+        return axios.post(url('/article'), fd, { crossDomain: true }).then((res) => {
             const data = res.data;
             dispatch({
                 type: addPost,

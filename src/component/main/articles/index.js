@@ -14,6 +14,7 @@ class Articles extends React.Component {
             msg: '',
             search: '',
             img: '',
+            img_display: '',
             post_edit: '',
             show_post: false,
             show_comment: false
@@ -43,7 +44,13 @@ class Articles extends React.Component {
 
     handlePhoto = (e) => {
         if (e.target.files && e.target.files[0]) {
-            this.setState({ img: URL.createObjectURL(e.target.files[0]) });
+            let image = e.target.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            this.setState({
+                img: e.target.files[0],
+                img_display: URL.createObjectURL(e.target.files[0])
+            });
         }
     }
 
@@ -97,8 +104,8 @@ class Articles extends React.Component {
                     <Grid item xs={3} style={{ textAlign: "center" }}>
                         <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                         <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
-                            <img className="btn-upload-img" alt="" src={this.state.img} style={{ display: this.state.img ? "block" : "none" }} /><br></br>
-                            <span className="btn-upload-text" style={{ display: this.state.img ? "none" : "block" }}>Add Image</span>
+                            <img className="btn-upload-img" alt="" src={this.state.img_display} style={{ display: this.state.img_display ? "block" : "none" }} /><br></br>
+                            <span className="btn-upload-text" style={{ display: this.state.img_display ? "none" : "block" }}>Add Image</span>
                         </Button>
                     </Grid>
                     <Grid item xs={8}>
