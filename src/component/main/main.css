@@ -73,12 +73,6 @@
   margin: 0px auto;
 }
 
-.uinfo {
-  text-align: center;
-  font-family: Snell Roundhand, cursive;
-  color: darkblue;
-}
-
 .follow-info,
 .article-info,
 .comment-info {
@@ -96,7 +90,7 @@
 #user-img {
   margin: auto;
   width: 38%;
-  height: 150px;
+  height: 200px;
 }
 
 .btn-upload-text {
