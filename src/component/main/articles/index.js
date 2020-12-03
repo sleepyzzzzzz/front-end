@@ -1,6 +1,6 @@
 import React from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
-import { Grid } from '@material-ui/core';
+import { InputGroup, FormControl, Button, Pagination } from 'react-bootstrap';
+import { Grid, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from "react-redux";
 import { addPost, filterPost, updatePost, handleInfo } from "../../../actions";
@@ -18,7 +18,11 @@ class Articles extends React.Component {
             img_display: '',
             post_edit: '',
             show_post: false,
-            show_comment: false
+            show_comment: false,
+            postPerPage: 5,
+            pageOffset: 0,
+            pageNum: 1,
+            search_page: ''
         }
         this.upload = React.createRef();
         this.inputPost = React.createRef();
@@ -32,6 +36,7 @@ class Articles extends React.Component {
     onChange = (e) => {
         if (e.target.name === 'search' && e.target.value === '') {
             this.props.filterPost(this.state.search, '');
+            this.handleFirstPage();
         }
         this.setState({
             [e.target.name]: e.target.value,
@@ -62,11 +67,13 @@ class Articles extends React.Component {
     addPost = () => {
         this.props.addPost(this.props.accountname, this.state.new_post, this.state.img);
         this.clearPost();
+        this.handleFirstPage();
     }
 
     handlePost = (text, pid, name) => {
         let id = name === 'post' ? -2 : -1;
         this.props.updatePost(text, pid, id);
+        this.handleFirstPage();
     }
 
     handleComment = (text, pid, commentId) => {
@@ -76,13 +83,15 @@ class Articles extends React.Component {
     filterpost = () => {
         let method = this.state.search ? 'id' : '';
         this.props.filterPost(this.state.search, method);
+        this.handleFirstPage();
     }
 
     displayPost = () => {
         let posts = this.props.posts;
+        let display = posts.slice(this.state.pageOffset, this.state.pageOffset + this.state.postPerPage);
         let displaypost = '';
-        if (posts) {
-            displaypost = posts.map((post, index) => {
+        if (display) {
+            displaypost = display.map((post, index) => {
                 return (
                     <Post
                         key={index}
@@ -96,6 +105,167 @@ class Articles extends React.Component {
             });
         }
         return displaypost;
+    }
+
+    hanldePage = (e) => {
+        let page_num = parseInt(e.target.text ? e.target.text : this.state.pageNum);
+        let offset = (page_num - 1) * this.state.postPerPage;
+        this.setState({
+            pageNum: page_num,
+            pageOffset: offset
+        });
+    }
+
+    handleFirstPage = () => {
+        this.setState({
+            pageNum: 1,
+            pageOffset: 0
+        })
+    }
+
+    handleLastPage = () => {
+        let num = this.props.posts.length;
+        let pages = Math.ceil(num / this.state.postPerPage);
+        this.setState({
+            pageNum: pages,
+            pageOffset: (pages - 1) * this.state.postPerPage
+        })
+    }
+
+    handlePrevPage = () => {
+        let num = this.state.pageNum - 1;
+        if (num > 0) {
+            this.setState({
+                pageNum: num,
+                pageOffset: (num - 1) * this.state.postPerPage
+            })
+        }
+    }
+
+    handleNextPage = () => {
+        let total_num = this.props.posts.length;
+        let pages = Math.ceil(total_num / this.state.postPerPage);
+        let num = this.state.pageNum + 1;
+        if (num <= pages) {
+            this.setState({
+                pageNum: num,
+                pageOffset: (num - 1) * this.state.postPerPage
+            })
+        }
+    }
+
+    handleSelectPage = () => {
+        let num = parseInt(this.state.search_page);
+        this.setState({
+            pageNum: num,
+            pageOffset: (num - 1) * this.state.postPerPage,
+            search_page: ''
+        })
+    }
+
+    displayPagination = () => {
+        let num = this.props.posts.length;
+        let pages = Math.ceil(num / this.state.postPerPage);
+        if (pages > 5) {
+            let items = [];
+            for (let i = 1; i <= pages; i++) {
+                if (i === this.state.pageNum || i === this.state.pageNum + 1) {
+                    items.push(
+                        <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.hanldePage}>
+                            {i}
+                        </Pagination.Item>,
+                    );
+                }
+                else {
+                    continue;
+                }
+            }
+            let prevItems = [];
+            let nextItems = [];
+            if (this.state.pageNum !== 1) {
+                prevItems.push(
+                    <Pagination.Item key={1} active={this.state.pageNum === 1} onClick={this.hanldePage}>
+                        {1}
+                    </Pagination.Item>,
+                );
+                if (this.state.pageNum - 1 > 1) {
+                    prevItems.push(<Pagination.Ellipsis key={2} />)
+                }
+            }
+            if (this.state.pageNum !== 6 && this.state.pageNum !== 5) {
+                nextItems.push(
+                    <Pagination.Item key={pages} active={this.state.pageNum === pages} onClick={this.hanldePage}>
+                        {pages}
+                    </Pagination.Item>,
+                )
+                if (pages - this.state.pageNum > 2) {
+                    nextItems.unshift(<Pagination.Ellipsis key={pages - 1} />)
+                }
+            }
+            return (
+                <div className='page-info'>
+                    <Pagination className='pages-select'>
+                        <Pagination.First onClick={this.handleFirstPage} />
+                        <Pagination.Prev onClick={this.handlePrevPage} />
+                        {prevItems}
+                        {items}
+                        {nextItems}
+                        <Pagination.Next onClick={this.handleNextPage} />
+                        <Pagination.Last onClick={this.handleLastPage} />
+                    </Pagination>
+                    <InputGroup className='search-page-input'>
+                        <FormControl
+                            id="search_page"
+                            name="search_page"
+                            value={this.state.search_page}
+                            placeholder="#page"
+                            onChange={this.onChange}
+                        />
+                        <InputGroup.Append>
+                            <IconButton id='btn-search-page' onClick={this.handleSelectPage}>
+                                <SearchIcon />
+                            </IconButton>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </div>
+            );
+        }
+        else {
+            let items = [];
+            for (let i = 1; i <= pages; i++) {
+                items.push(
+                    <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.hanldePage}>
+                        {i}
+                    </Pagination.Item>,
+                );
+            }
+            return (
+                <div className='page-info'>
+                    <Pagination className='pages-select'>
+                        <Pagination.First onClick={this.handleFirstPage} />
+                        <Pagination.Prev onClick={this.handlePrevPage} />
+                        {items}
+                        <Pagination.Next onClick={this.handleNextPage} />
+                        <Pagination.Last onClick={this.handleLastPage} />
+                    </Pagination>
+                    <InputGroup className='search-page-input'>
+                        <FormControl
+                            id="search_page"
+                            name="search_page"
+                            value={this.state.search_page}
+                            placeholder="#page"
+                            onChange={this.onChange}
+                        />
+                        <InputGroup.Append>
+                            <IconButton id='btn-search-page1' onClick={this.handleSelectPage}>
+                                <SearchIcon />
+                            </IconButton>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </div>
+            );
+
+        }
     }
 
     render() {
@@ -151,6 +321,7 @@ class Articles extends React.Component {
                     </Grid>
                     <Grid item xs={12} className="wrapper-posts">
                         {this.displayPost()}
+                        {this.displayPagination()}
                     </Grid>
                 </Grid>
             </Grid>

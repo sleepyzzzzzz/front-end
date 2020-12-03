@@ -142,10 +142,8 @@
 }
 
 .wrapper-posts {
-  max-height: 520px;
   border: 1px solid gainsboro;
   overflow-y: auto;
-  overflow-x: auto;
 }
 
 .nav-tabs {
@@ -170,4 +168,28 @@
 .btns-comments {
   text-align: center;
   margin-left: 50%;
+}
+
+.page-info {
+  display: flex;
+  text-align: center;
+  margin: auto;
+}
+
+.pages-select {
+  margin: auto;
+}
+
+.search-page-input {
+  margin-top: 1%;
+  width: 20%;
+}
+
+#btn-search-page,
+#btn-search-page1 {
+  outline: auto;
+  outline-color: darkblue;
+  color: darkblue;
+  width: 100%;
+  height: 80%;
 }
