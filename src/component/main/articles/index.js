@@ -67,13 +67,11 @@ class Articles extends React.Component {
     addPost = () => {
         this.props.addPost(this.props.accountname, this.state.new_post, this.state.img);
         this.clearPost();
-        this.handleFirstPage();
     }
 
     handlePost = (text, pid, name) => {
         let id = name === 'post' ? -2 : -1;
         this.props.updatePost(text, pid, id);
-        this.handleFirstPage();
     }
 
     handleComment = (text, pid, commentId) => {
@@ -83,7 +81,6 @@ class Articles extends React.Component {
     filterpost = () => {
         let method = this.state.search ? 'id' : '';
         this.props.filterPost(this.state.search, method);
-        this.handleFirstPage();
     }
 
     displayPost = () => {
