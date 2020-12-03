@@ -1,6 +1,6 @@
 import {
     goProfile, goMain, handleInfo,
-    handleLogin, googleLogin, handleRegister, handleLogout,
+    handleLogin, handleRegister, handleLogout,
     updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
     getUsername, getInfo, getAvatar, getStatus,
@@ -62,12 +62,6 @@ export function frontend(state = initialState, action) {
                 path: '/main',
                 info: ''
             };
-        case googleLogin:
-            return {
-                ...state,
-                path: '/main',
-                info: ''
-            }
         case handleRegister:
             if (action.data.status === 401) {
                 return {

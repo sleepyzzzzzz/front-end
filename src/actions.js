@@ -1,6 +1,6 @@
 import axios from 'axios';
-// export const url = path => `http://localhost:3000${path}`;
-export const url = path => `https://yz166-final-backend.herokuapp.com${path}`;
+export const url = path => `http://localhost:3000${path}`;
+// export const url = path => `https://yz166-final-backend.herokuapp.com${path}`;
 axios.defaults.withCredentials = true;
 
 export const goMain = () => ({
@@ -36,15 +36,6 @@ export const handleLogin = (accountname, pwd) => {
                 type: handleLogin,
                 data
             })
-        })
-    }
-};
-
-export const googleLogin = () => {
-    return (dispatch) => {
-        window.location = 'http://localhost:3000/google';
-        dispatch({
-            type: googleLogin
         })
     }
 };
@@ -489,3 +480,97 @@ export const getAvatar = () => {
         })
     };
 };
+
+export const linkAccount = (username, pwd) => {
+    let link_account = {
+        username: username,
+        password: pwd
+    }
+    return (dispatch) => {
+        return axios.post(url('/link'), link_account, { crossDomain: true, }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: linkAccount,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: linkAccount,
+                data
+            })
+        })
+    }
+}
+
+export const unlinkAccount = (username) => {
+    return (dispatch) => {
+        return axios.get(url('/unlink/' + username), { crossDomain: true, }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: unlinkAccount,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: unlinkAccount,
+                data
+            })
+        })
+    }
+}
+
+export const updateLinkAccount = () => {
+    return (dispatch) => {
+        return axios.put(url('/link'), { crossDomain: true, }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: updateLinkAccount,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: updateLinkAccount,
+                data
+            })
+        })
+    }
+}
+
+export const getLink = () => {
+    return (dispatch) => {
+        return axios.get(url('/link'), { crossDomain: true, }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: getLink,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: getLink,
+                data
+            })
+        })
+    }
+}
+
+export const getUsername = () => {
+    return (dispatch) => {
+        return axios.get(url('/username'), { crossDomain: true, }).then((res) => {
+            const data = res.data;
+            dispatch({
+                type: getUsername,
+                data
+            })
+        }).catch(e => {
+            const data = e.response;
+            dispatch({
+                type: getUsername,
+                data
+            })
+        })
+    }
+}

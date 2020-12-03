@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { handleLogin, googleLogin } from "../../../actions";
+import { handleLogin } from "../../../actions";
 import "./login.css";
 
 class Login extends React.Component {
@@ -39,6 +39,14 @@ class Login extends React.Component {
         else {
             this.props.handleLogin(this.state.accountname, this.state.pwd);
         }
+    }
+
+    googleLogin = () => {
+        // let google_link = process.env.NODE_ENV === 'production'
+        //     ? 'https://yz166-final-backend.herokuapp.com/google'
+        //     : 'http://localhost:3000/google';
+        let google_link = 'http://localhost:3000/google';
+        window.location = google_link;
     }
 
     render() {
@@ -95,7 +103,7 @@ class Login extends React.Component {
                     </Form.Row>
                     <br></br>
                     <Form.Row>
-                        <Button id='btn-google' onClick={() => this.props.googleLogin()}>
+                        <Button id='btn-google' onClick={this.googleLogin}>
                             <img id='img-google' alt="Google Login" src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' />
                             Login With Google
                         </Button>
@@ -121,7 +129,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleLogin: (accountname, pwd) => dispatch(handleLogin(accountname, pwd)),
-        googleLogin: () => dispatch(googleLogin()),
     }
 }
 
