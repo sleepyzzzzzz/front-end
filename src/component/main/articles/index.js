@@ -37,7 +37,6 @@ class Articles extends React.Component {
         if (e.target.name === 'search' && e.target.value === '') {
             this.props.filterPost(this.state.search, '');
             this.handleFirstPage();
-            this.setState({ msg: '' });
         }
         this.setState({
             [e.target.name]: e.target.value,
@@ -82,6 +81,7 @@ class Articles extends React.Component {
     filterpost = () => {
         let method = this.state.search ? 'id' : '';
         this.props.filterPost(this.state.search, method);
+        this.setState({ msg: '' });
     }
 
     displayPost = () => {
@@ -97,6 +97,7 @@ class Articles extends React.Component {
                     <Post
                         key={index}
                         post={post}
+                        all_posts={display}
                         handlePost={this.handlePost}
                         handleComment={this.handleComment}
                         handleInfo={this.props.handleInfo}

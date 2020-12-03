@@ -24,6 +24,9 @@ export class Post extends React.Component {
             this.setState({ msg: this.props.info, update: false });
             this.props.handleInfo();
         }
+        if (prevProps.post.author !== this.props.post.author && !this.state.update && this.state.msg !== '') {
+            this.setState({ msg: '' });
+        }
     }
 
     onChange = (e) => {
@@ -35,10 +38,10 @@ export class Post extends React.Component {
 
     handleClose = () => {
         if (this.state.show_post) {
-            this.setState({ post_edit: '', show_post: false });
+            this.setState({ post_edit: '', show_post: false, msg: '' });
         }
         if (this.state.show_comment) {
-            this.setState({ post_edit: '', show_comment: false });
+            this.setState({ post_edit: '', show_comment: false, msg: '' });
         }
     }
 
