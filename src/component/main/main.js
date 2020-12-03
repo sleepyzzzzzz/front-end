@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { Grid, Divider, Avatar } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getAvatar, handleLogout, goProfile, getStatus, updateStatus } from "../../actions";
+import { getAvatar, handleLogout, goProfile, getStatus, updateStatus, getUsername } from "../../actions";
 import Follow from './following/index';
 import Articles from './articles/index';
 import "./main.css";
@@ -21,6 +21,7 @@ class Main extends React.Component {
     componentDidMount() {
         this.props.getAvatar();
         this.props.getStatus();
+        this.props.getUsername();
     }
 
     onChange = (e) => {
@@ -45,10 +46,10 @@ class Main extends React.Component {
     }
 
     render() {
-        let username = document.cookie.split("=")[1];
-        if (username === "" || typeof (username) === "undefined") {
-            return <Redirect to={'/'} />
-        }
+        // let username = document.cookie.split("=")[1];
+        // if (username === "" || typeof (username) === "undefined") {
+        //     return <Redirect to={'/'} />
+        // }
         return (
             <Grid container spacing={3} id="main-page">
                 <Grid item xs={5}>
@@ -113,6 +114,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getUsername: () => dispatch(getUsername()),
         getAvatar: () => dispatch(getAvatar()),
         getStatus: () => dispatch(getStatus()),
         goProfile: () => dispatch(goProfile()),

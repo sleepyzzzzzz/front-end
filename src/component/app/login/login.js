@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import { Grid } from '@material-ui/core'
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { handleLogin, googleLogin } from "../../../actions";

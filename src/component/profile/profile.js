@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { Grid, Avatar } from '@material-ui/core';
 import {
-    goMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
+    goMain, getAvatar, getUsername, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
     linkAccount, unlinkAccount, getLink
 } from "../../actions";
 import "./profile.css";
@@ -30,6 +30,7 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
+        this.props.getUsername();
         this.props.getInfo();
         this.props.getAvatar();
         this.props.getLink();
@@ -296,7 +297,7 @@ class Profile extends React.Component {
                         </Form>
                     </Grid>
                 </Grid>
-                <Grid item xs={2} className='profile-pgs-link' style={{ display: this.props.accountname === '' ? 'block' : 'none' }}>
+                <Grid item xs={2} className='profile-pgs-link'>
                     <h5 className='profile-form-title1'>Link Account</h5>
                     <Form.Row className="form-update">
                         <Form.Group>
@@ -379,6 +380,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         goMain: () => dispatch(goMain()),
+        getUsername: () => dispatch(getUsername()),
         getAvatar: () => dispatch(getAvatar()),
         getInfo: () => dispatch(getInfo()),
         handleEmail: (email) => dispatch(handleEmail(email)),

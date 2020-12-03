@@ -3,7 +3,7 @@ import {
     handleLogin, googleLogin, handleRegister, handleLogout,
     updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
-    getInfo, getAvatar, getStatus,
+    getUsername, getInfo, getAvatar, getStatus,
     linkAccount, unlinkAccount, updateLinkAccount, getLink
 } from "./actions";
 
@@ -65,7 +65,6 @@ export function frontend(state = initialState, action) {
         case googleLogin:
             return {
                 ...state,
-                // accountname: '',
                 path: '/main',
                 info: ''
             }
@@ -101,6 +100,11 @@ export function frontend(state = initialState, action) {
                 filtered_posts: [],
                 info: '',
                 path: '/'
+            }
+        case getUsername:
+            return {
+                ...state,
+                accountname: action.data.username
             }
         case getStatus:
             return {
