@@ -88,7 +88,10 @@ class Articles extends React.Component {
 
     displayPost = () => {
         let posts = this.props.posts;
-        let display = posts.slice(this.state.pageOffset, this.state.pageOffset + this.state.postPerPage);
+        let display;
+        if (posts) {
+            display = posts.slice(this.state.pageOffset, this.state.pageOffset + this.state.postPerPage);
+        }
         let displaypost = '';
         if (display) {
             displaypost = display.map((post, index) => {
@@ -164,7 +167,10 @@ class Articles extends React.Component {
     }
 
     displayPagination = () => {
-        let num = this.props.posts.length;
+        let num = 0;
+        if (this.props.posts) {
+            num = this.props.posts.length;
+        }
         let pages = Math.ceil(num / this.state.postPerPage);
         if (pages > 5) {
             let items = [];
