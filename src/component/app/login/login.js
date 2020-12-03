@@ -41,6 +41,15 @@ class Login extends React.Component {
         }
     }
 
+    login_google = () => {
+        // let redirectUrl = process.env.NODE_ENV === 'production'
+        //     ? 'https://yz166-final-backend.herokuapp.com/google'
+        //     : 'http://localhost:3000/google';
+        let redirectUrl = 'http://localhost:3000/google';
+        console.log(redirectUrl)
+        window.location = redirectUrl;
+    }
+
     render() {
         let username = document.cookie.split("=")[1];
         if (typeof (username) !== "undefined") {
@@ -95,14 +104,15 @@ class Login extends React.Component {
                     </Form.Row>
                     <br></br>
                     <Form.Row>
-                        <Button id='btn-google' onClick={() => this.props.googleLogin()}>Login with Google</Button>
+                        {/* <Button id='btn-google' onClick={() => this.props.googleLogin()}>Login with Google</Button> */}
+                        <Button id='btn-google' onClick={this.login_google}>Login with Google</Button>
                     </Form.Row>
                     <br></br>
                     <Form.Row>
                         <span className="login-info">{this.props.info}</span>
                     </Form.Row>
                 </Form>
-            </Container>
+            </Container >
         );
     }
 }
