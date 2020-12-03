@@ -97,7 +97,6 @@ class Articles extends React.Component {
                     <Post
                         key={index}
                         post={post}
-                        all_posts={display}
                         handlePost={this.handlePost}
                         handleComment={this.handleComment}
                         handleInfo={this.props.handleInfo}
