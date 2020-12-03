@@ -46,10 +46,10 @@ class Main extends React.Component {
     }
 
     render() {
-        // let username = document.cookie.split("=")[1];
-        // if (username === "" || typeof (username) === "undefined") {
-        //     return <Redirect to={'/'} />
-        // }
+        let username = document.cookie.split("=")[1];
+        if (username === "" || typeof (username) === "undefined") {
+            return <Redirect to={'/'} />
+        }
         return (
             <Grid container spacing={3} id="main-page">
                 <Grid item xs={5}>

@@ -168,10 +168,10 @@ class Profile extends React.Component {
     }
 
     render() {
-        // let username = document.cookie.split("=")[1];
-        // if (username === "" || typeof (username) === "undefined") {
-        //     return <Redirect to={'/'} />
-        // }
+        let username = document.cookie.split("=")[1];
+        if (username === "" || typeof (username) === "undefined") {
+            return <Redirect to={'/'} />
+        }
         return (
             <Grid container id="profile-page">
                 <Grid item xs={12} sm={10}>

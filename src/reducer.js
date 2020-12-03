@@ -96,6 +96,10 @@ export function frontend(state = initialState, action) {
                 path: '/'
             }
         case getUsername:
+            let username = document.cookie.split("=")[1];
+            if (username === "" || typeof (username) === "undefined") {
+                document.cookie = "user=" + action.data.username;
+            }
             return {
                 ...state,
                 accountname: action.data.username
