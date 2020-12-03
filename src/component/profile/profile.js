@@ -3,7 +3,10 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { Grid, Avatar } from '@material-ui/core';
-import { goMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd, } from "../../actions";
+import {
+    goMain, getAvatar, getInfo, handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
+    linkAccount, unlinkAccount, getLink
+} from "../../actions";
 import "./profile.css";
 
 class Profile extends React.Component {
@@ -17,6 +20,9 @@ class Profile extends React.Component {
             pwd: '',
             img: '',
             img_display: '',
+            link_username: '',
+            link_pwd: '',
+            unlink_username: '',
             info: '',
             msg: []
         };
@@ -26,6 +32,7 @@ class Profile extends React.Component {
     componentDidMount() {
         this.props.getInfo();
         this.props.getAvatar();
+        this.props.getLink();
     }
 
     validation = (field, value, msg, oldvalue, reg) => {
@@ -146,15 +153,24 @@ class Profile extends React.Component {
                 phone: {this.props.phone}<br />
                 zipcode: {this.props.zipcode}<br />
                 password: {this.props.pwd}<br />
+                linked account: {this.props.link}<br />
             </span>
         );
     }
 
+    linkAccount = () => {
+        this.props.linkAccount(this.state.link_username, this.state.link_pwd);
+    }
+
+    unlinkAccount = () => {
+        this.props.unlinkAccount(this.state.unlink_username);
+    }
+
     render() {
-        let username = document.cookie.split("=")[1];
-        if (username === "" || typeof (username) === "undefined") {
-            return <Redirect to={'/'} />
-        }
+        // let username = document.cookie.split("=")[1];
+        // if (username === "" || typeof (username) === "undefined") {
+        //     return <Redirect to={'/'} />
+        // }
         return (
             <Grid container id="profile-page">
                 <Grid item xs={12} sm={10}>
@@ -163,11 +179,11 @@ class Profile extends React.Component {
                 <Grid item xs={12} sm={2}>
                     <Link className="nav-link" to="/main" onClick={() => this.props.goMain()}>Main Page</Link>
                 </Grid>
-                <Grid item xs={6} className='profile-pgs'>
-                    <Grid item xs={6} id="profile-img">
+                <Grid item xs={4} className='profile-pgs'>
+                    <Grid item xs={12} id="profile-img">
                         <Avatar id="user-img-profile" alt='' src={this.props.avatar} />
                     </Grid>
-                    <Grid item xs={6} className="updates">
+                    <Grid item xs={12} className="updates">
                         <Container id="container_display">
                             <Card>
                                 <Card.Body>
@@ -180,11 +196,12 @@ class Profile extends React.Component {
                         </Container>
                     </Grid>
                 </Grid>
-                <Grid item xs={6} className='profile-pgs'>
-                    <Grid item xs={6} className="updates">
+                <Grid item xs={5} className='profile-pgs'>
+                    <Grid item xs={12} className="updates">
                         <Form noValidate className="form-update" onSubmit={this.onSubmit}>
-                            <h1>Update Info</h1>
-                            <Grid item xs={6} id="img-update">
+                            <h1 className='profile-form-title'>Update Info</h1>
+                            <br></br>
+                            <Grid item xs={5} id="img-update">
                                 <input className="uploading" type="file" accept="image/*" ref={this.upload} onChange={this.handlePhoto} />
                                 <Button className="btn-upload" variant="outline-primary" onClick={this.handleUpload}>
                                     <img className="btn-upload-img" alt="default.png" src={this.state.img_display} style={{ display: this.state.img_display ? "block" : "none" }} /><br></br>
@@ -193,7 +210,7 @@ class Profile extends React.Component {
                             </Grid>
                             <br></br>
                             <Form.Row>
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                     <Form.Group>
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
@@ -206,10 +223,10 @@ class Profile extends React.Component {
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Input is either same as the old one or not valid: proper format is ###@##.##
-                                    </Form.Control.Feedback>
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                     <Form.Group>
                                         <Form.Label>Phone Number</Form.Label>
                                         <Form.Control
@@ -223,12 +240,12 @@ class Profile extends React.Component {
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Input is either same as the old one or not valid: proper format is 123-123-1234
-                                    </Form.Control.Feedback>
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                 </Grid>
                             </Form.Row>
                             <Form.Row>
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                     <Form.Group>
                                         <Form.Label>Zipcode</Form.Label>
                                         <Form.Control
@@ -242,10 +259,10 @@ class Profile extends React.Component {
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Input is either same as the old one or not valid: proper format is 12345
-                                    </Form.Control.Feedback>
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                     <Form.Group>
                                         <Form.Label>Password</Form.Label>
                                         <Form.Control
@@ -258,7 +275,7 @@ class Profile extends React.Component {
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Input is same as the old one
-                                    </Form.Control.Feedback>
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                 </Grid>
                             </Form.Row>
@@ -279,6 +296,66 @@ class Profile extends React.Component {
                         </Form>
                     </Grid>
                 </Grid>
+                <Grid item xs={2} className='profile-pgs-link' style={{ display: this.props.accountname === '' ? 'block' : 'none' }}>
+                    <h5 className='profile-form-title1'>Link Account</h5>
+                    <Form.Row className="form-update">
+                        <Form.Group>
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                className="form-control"
+                                value={this.state.link_username}
+                                onChange={this.onChange}
+                                type="text"
+                                id="link_username"
+                                name="link_username"
+                            />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="form-update">
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                className="form-control"
+                                value={this.state.linkpwd}
+                                onChange={this.onChange}
+                                type="password"
+                                id="link_pwd"
+                                name="link_pwd"
+                            />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Button id="btn-link-account" type="submit" onClick={this.linkAccount}>
+                            Link
+                        </Button>
+                    </Form.Row>
+                    <br></br>
+                    <h5 className='profile-form-title1'>Unlink Account</h5>
+                    <Form.Row className="form-update">
+                        <Form.Group>
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                className="form-control"
+                                value={this.state.unlink_username}
+                                onChange={this.onChange}
+                                type="text"
+                                id="unlink_username"
+                                name="unlink_username"
+                            />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="form-update">
+                        <Form.Group>
+                            <Form.Label>Provider</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue="google" style={{ textAlign: 'center' }} />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Button id="btn-unlink-account" type="submit" onClick={this.unlinkAccount}>
+                            Unlink
+                        </Button>
+                    </Form.Row>
+                </Grid>
             </Grid >
         );
     }
@@ -294,6 +371,7 @@ const mapStateToProps = (state) => {
         pwd: state.pwd,
         avatar: state.avatar,
         status: state.status,
+        link: state.link,
         info: state.info
     };
 }
@@ -308,6 +386,9 @@ const mapDispatchToProps = (dispatch) => {
         handlePhone: (phone) => dispatch(handlePhone(phone)),
         handleAvatar: (avatar) => dispatch(handleAvatar(avatar)),
         handlePwd: (pwd) => dispatch(handlePwd(pwd)),
+        linkAccount: (username, pwd) => dispatch(linkAccount(username, pwd)),
+        unlinkAccount: (username) => dispatch(unlinkAccount(username)),
+        getLink: () => dispatch(getLink()),
     }
 }
 

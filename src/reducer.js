@@ -3,7 +3,8 @@ import {
     handleLogin, googleLogin, handleRegister, handleLogout,
     updateStatus, getAll, getFollow, updateFollow, addPost, filterPost, updatePost,
     handleEmail, handleZipcode, handlePhone, handleAvatar, handlePwd,
-    getInfo, getAvatar, getStatus
+    getInfo, getAvatar, getStatus,
+    linkAccount, unlinkAccount, updateLinkAccount, getLink
 } from "./actions";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
     follow_info: [],
     posts: [],
     all: [],
+    link: [],
     info: '',
     path: '/'
 }
@@ -62,7 +64,10 @@ export function frontend(state = initialState, action) {
             };
         case googleLogin:
             return {
-                ...state
+                ...state,
+                // accountname: '',
+                path: '/main',
+                info: ''
             }
         case handleRegister:
             if (action.data.status === 401) {
@@ -199,6 +204,25 @@ export function frontend(state = initialState, action) {
             return {
                 ...state,
                 avatar: action.data.avatar
+            }
+        case linkAccount:
+            return {
+                ...state,
+                link: action.data.auth
+            }
+        case unlinkAccount:
+            return {
+                ...state,
+                link: action.data.auth
+            }
+        case updateLinkAccount:
+            return {
+                ...state
+            }
+        case getLink:
+            return {
+                ...state,
+                link: action.data.auth
             }
         default:
             return { ...state };

@@ -5,19 +5,34 @@
 .profile-pgs {
   text-align: center;
   width: max-content;
-  padding: 2% 2% 2% 10%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.profile-pgs-link {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 10%;
 }
 
 #profile-img {
   position: relative;
   text-align: center;
-  margin: 1%;
+  margin: 5% 25%;
 }
 
 #user-img-profile {
   margin: auto;
-  width: 80%;
-  height: 150px;
+  width: 100%;
+  height: 200px;
+}
+
+#container_display {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  font-family: Snell Roundhand, cursive;
 }
 
 #profile-upload {
@@ -37,31 +52,46 @@
   margin: 0px auto;
 }
 
-#container_display {
-  width: 100%;
-  text-align: center;
-  font-family: Snell Roundhand, cursive;
-}
-
 .form-update {
   text-align: center;
   font-size: 15px;
   font-family: URW Chancery L, cursive;
   margin: 0px auto;
+  width: max-content;
+  margin: auto;
+}
+
+.profile-form-title {
+  margin-top: 5%;
+  margin-left: -18%;
+  font-family: URW Chancery L, cursive;
+  font-size: 30px;
+}
+
+.profile-form-title1 {
+  margin-top: 10%;
+  margin-left: -10%;
+  font-family: URW Chancery L, cursive;
+  font-size: 30px;
 }
 
 .updates {
   position: relative;
   text-align: center;
+  margin-top: 10%;
 }
 
-#profile-btn {
+#profile-btn,
+#profile-reset-btn {
   position: relative;
   text-align: center;
+  margin-left: -18%;
 }
 
 #btn-update-info,
-#btn-reset-update-info {
+#btn-reset-update-info,
+#btn-link-account,
+#btn-unlink-account {
   border-radius: 8em;
   font-weight: bold;
   font-family: Snell Roundhand, cursive;
@@ -81,5 +111,5 @@
 
 #img-update {
   text-align: center;
-  margin: auto;
+  margin-left: 20%;
 }
