@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
+import { Grid } from '@material-ui/core'
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { handleLogin, googleLogin } from "../../../actions";
@@ -95,14 +96,17 @@ class Login extends React.Component {
                     </Form.Row>
                     <br></br>
                     <Form.Row>
-                        <Button id='btn-google' onClick={() => this.props.googleLogin()}>Login with Google</Button>
+                        <Button id='btn-google' onClick={() => this.props.googleLogin()}>
+                            <img id='img-google' alt="Google Login" src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' />
+                            Login With Google
+                        </Button>
                     </Form.Row>
                     <br></br>
                     <Form.Row>
                         <span className="login-info">{this.props.info}</span>
                     </Form.Row>
                 </Form>
-            </Container >
+            </Container>
         );
     }
 }

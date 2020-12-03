@@ -6,6 +6,7 @@
   position: absolute;
   margin: 0px auto;
   margin-left: 25%;
+  width: max-content;
 }
 
 .formheader {
@@ -14,7 +15,7 @@
   font-family: Snell Roundhand, cursive;
   width: 100%;
   height: 100px;
-  margin-left: 1px;
+  margin-left: -10%;
   padding: 10px;
 }
 
@@ -22,8 +23,7 @@
   font: 300px;
 }
 
-#btn-login,
-#btn-google {
+#btn-login {
   border-radius: 8em;
   font-weight: bold;
   font-family: Snell Roundhand, cursive;
@@ -31,7 +31,7 @@
   text-align: center;
   width: 50%;
   height: 50%;
-  margin: 0px auto;
+  margin-left: 15%;
 }
 
 .login-info {
@@ -41,4 +41,22 @@
   text-align: center;
   margin: auto;
   position: absolute;
+}
+
+#img-google {
+  width: 15%;
+  height: 20px;
+  margin-right: 5%;
+}
+
+#btn-google {
+  border-radius: 10px;
+  font-weight: bold;
+  font-family: Snell Roundhand, cursive;
+  color: dodgerblue;
+  background-color: white;
+  text-align: center;
+  width: 70%;
+  height: 80%;
+  margin-left: 5%;
 }
