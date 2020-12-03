@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { Grid, Divider, Avatar } from '@material-ui/core';
 import { connect } from "react-redux";
@@ -45,6 +45,10 @@ class Main extends React.Component {
     }
 
     render() {
+        let username = document.cookie.split("=")[1];
+        if (username === "" || typeof (username) === "undefined") {
+            return <Redirect to={'/'} />
+        }
         return (
             <Grid container spacing={3} id="main-page">
                 <Grid item xs={5}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { Grid, Avatar } from '@material-ui/core';
@@ -151,6 +151,10 @@ class Profile extends React.Component {
     }
 
     render() {
+        let username = document.cookie.split("=")[1];
+        if (username === "" || typeof (username) === "undefined") {
+            return <Redirect to={'/'} />
+        }
         return (
             <Grid container id="profile-page">
                 <Grid item xs={12} sm={10}>
