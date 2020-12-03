@@ -37,6 +37,7 @@ class Articles extends React.Component {
         if (e.target.name === 'search' && e.target.value === '') {
             this.props.filterPost(this.state.search, '');
             this.handleFirstPage();
+            this.setState({ msg: '' });
         }
         this.setState({
             [e.target.name]: e.target.value,
