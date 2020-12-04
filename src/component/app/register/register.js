@@ -199,7 +199,7 @@ class Register extends React.Component {
             <Container>
                 <Form noValidate className="form_reg" onSubmit={this.onSubmit}>
                     <Form.Row>
-                        <h1 className="formheader">Register</h1>
+                        <h1 className="formheader-Register">Register</h1>
                     </Form.Row>
                     <Form.Row>
                         <Grid container spacing={3}>

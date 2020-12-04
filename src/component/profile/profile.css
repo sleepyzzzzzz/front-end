@@ -100,7 +100,8 @@
   margin: 0px auto;
 }
 
-#update-info {
+#update-info,
+#link-info {
   color: red;
   font-size: 15px;
   font-family: Snell Roundhand, cursive;

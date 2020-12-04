@@ -93,6 +93,9 @@ class Profile extends React.Component {
             pwd: '',
             img: '',
             img_display: '',
+            link_username: '',
+            link_pwd: '',
+            unlink_username: '',
             info: '',
             msg: []
         });
@@ -164,11 +167,17 @@ class Profile extends React.Component {
     }
 
     linkAccount = () => {
-        this.props.linkAccount(this.state.link_username, this.state.link_pwd);
+        if (this.state.link_username && this.state.link_pwd) {
+            this.props.linkAccount(this.state.link_username, this.state.link_pwd);
+            this.reset();
+        }
     }
 
     unlinkAccount = () => {
-        this.props.unlinkAccount(this.state.unlink_username);
+        if (this.state.unlink_username) {
+            this.props.unlinkAccount(this.state.unlink_username);
+            this.reset();
+        }
     }
 
     render() {
@@ -321,7 +330,7 @@ class Profile extends React.Component {
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 className="form-control"
-                                value={this.state.linkpwd}
+                                value={this.state.link_pwd}
                                 onChange={this.onChange}
                                 type="password"
                                 id="link_pwd"
@@ -359,6 +368,11 @@ class Profile extends React.Component {
                         <Button id="btn-unlink-account" type="submit" onClick={this.unlinkAccount}>
                             Unlink
                         </Button>
+                    </Form.Row>
+                    <Form.Row>
+                        <div>
+                            <span id="link-info">{this.props.info}</span>
+                        </div>
                     </Form.Row>
                 </Grid>
             </Grid >
