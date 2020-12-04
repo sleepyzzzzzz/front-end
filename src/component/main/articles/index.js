@@ -196,7 +196,7 @@ class Articles extends React.Component {
                     prevItems.push(<Pagination.Ellipsis key={2} />)
                 }
             }
-            if (this.state.pageNum !== 6 && this.state.pageNum !== 5) {
+            if (this.state.pageNum !== pages && this.state.pageNum !== pages - 1) {
                 nextItems.push(
                     <Pagination.Item key={pages} active={this.state.pageNum === pages} onClick={this.handlePage}>
                         {pages}
