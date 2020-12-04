@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { Grid, Divider, Avatar } from '@material-ui/core';
 import { connect } from "react-redux";
-import { getAvatar, handleLogout, goProfile, getStatus, updateStatus, getUsername } from "../../actions";
+import { getAvatar, handleLogout, goProfile, getStatus, updateStatus, getUsername, getLink, updateLinkAccount } from "../../actions";
 import Follow from './following/index';
 import Articles from './articles/index';
 import "./main.css";
@@ -22,6 +22,13 @@ class Main extends React.Component {
         this.props.getAvatar();
         this.props.getStatus();
         this.props.getUsername();
+        this.props.getLink();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.link !== this.props.link) {
+            this.props.updateLinkAccount();
+        }
     }
 
     onChange = (e) => {
@@ -108,6 +115,7 @@ const mapStateToProps = (state) => {
         follow_info: state.follow_info,
         avatar: state.avatar,
         posts: state.posts,
+        link: state.link,
         info: state.info
     };
 }
@@ -120,6 +128,8 @@ const mapDispatchToProps = (dispatch) => {
         goProfile: () => dispatch(goProfile()),
         handleLogout: () => dispatch(handleLogout()),
         updateStatus: (status) => dispatch(updateStatus(status)),
+        getLink: () => dispatch(getLink()),
+        updateLinkAccount: () => dispatch(updateLinkAccount()),
     }
 }
 

@@ -147,6 +147,10 @@ class Profile extends React.Component {
     }
 
     displayInfo = () => {
+        let link = '';
+        if (this.props.link.length > 0) {
+            link = this.props.link[0] + ' - ' + this.props.link[2] + ' -- ' + this.props.link[1];
+        }
         return (
             <span>
                 username: {this.props.accountname}<br />
@@ -154,7 +158,7 @@ class Profile extends React.Component {
                 phone: {this.props.phone}<br />
                 zipcode: {this.props.zipcode}<br />
                 password: {this.props.pwd}<br />
-                linked account: {this.props.link}<br />
+                linked account: {link} <br />
             </span>
         );
     }

@@ -208,23 +208,38 @@ export function frontend(state = initialState, action) {
                 avatar: action.data.avatar
             }
         case linkAccount:
+            let link_account = [action.data.username, 'google', action.data.auth[0]['google']];
             return {
                 ...state,
-                link: action.data.auth
+                link: link_account
             }
         case unlinkAccount:
+            if (action.data.auth && action.data.auth.length > 0) {
+                let link_account1 = [action.data.username, 'google', action.data.auth[0]['google']];
+                return {
+                    ...state,
+                    link: link_account1
+                }
+            }
             return {
                 ...state,
-                link: action.data.auth
+                link: []
             }
         case updateLinkAccount:
             return {
                 ...state
             }
         case getLink:
+            if (action.data.auth && action.data.auth.length > 0) {
+                let link_account3 = [action.data.username, 'google', action.data.auth[0]['google']];
+                return {
+                    ...state,
+                    link: link_account3
+                }
+            }
             return {
                 ...state,
-                link: action.data.auth
+                link: []
             }
         default:
             return { ...state };

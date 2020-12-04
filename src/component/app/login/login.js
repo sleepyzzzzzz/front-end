@@ -42,10 +42,11 @@ class Login extends React.Component {
     }
 
     googleLogin = () => {
-        // let google_link = process.env.NODE_ENV === 'production'
-        //     ? 'https://yz166-final-backend.herokuapp.com/google'
-        //     : 'http://localhost:3000/google';
-        let google_link = 'http://localhost:3000/google';
+        let google_link = process.env.NODE_ENV === 'production'
+            ? 'https://yz166-final-backend.herokuapp.com/google'
+            : 'http://localhost:3000/google';
+        // let google_link = 'http://localhost:3000/google';
+        // let google_link = 'https://yz166-final-backend.herokuapp.com/google';
         window.location = google_link;
     }
 
