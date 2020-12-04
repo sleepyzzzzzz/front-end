@@ -23,13 +23,16 @@ class Main extends React.Component {
         this.props.getStatus();
         this.props.getUsername();
         this.props.getLink();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.link !== this.props.link) {
+        if (this.props.link.length !== 0) {
             this.props.updateLinkAccount();
         }
     }
+
+    // componentDidUpdate(prevProps) {
+    //     // if (prevProps.link !== this.props.link) {
+    //     //     this.props.updateLinkAccount();
+    //     // }
+    // }
 
     onChange = (e) => {
         this.setState({

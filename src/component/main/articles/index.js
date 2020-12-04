@@ -108,7 +108,7 @@ class Articles extends React.Component {
         return displaypost;
     }
 
-    hanldePage = (e) => {
+    handlePage = (e) => {
         let page_num = parseInt(e.target.text ? e.target.text : this.state.pageNum);
         let offset = (page_num - 1) * this.state.postPerPage;
         this.setState({
@@ -175,7 +175,7 @@ class Articles extends React.Component {
             for (let i = 1; i <= pages; i++) {
                 if (i === this.state.pageNum || i === this.state.pageNum + 1) {
                     items.push(
-                        <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.hanldePage}>
+                        <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.handlePage}>
                             {i}
                         </Pagination.Item>,
                     );
@@ -188,7 +188,7 @@ class Articles extends React.Component {
             let nextItems = [];
             if (this.state.pageNum !== 1) {
                 prevItems.push(
-                    <Pagination.Item key={1} active={this.state.pageNum === 1} onClick={this.hanldePage}>
+                    <Pagination.Item key={1} active={this.state.pageNum === 1} onClick={this.handlePage}>
                         {1}
                     </Pagination.Item>,
                 );
@@ -198,7 +198,7 @@ class Articles extends React.Component {
             }
             if (this.state.pageNum !== 6 && this.state.pageNum !== 5) {
                 nextItems.push(
-                    <Pagination.Item key={pages} active={this.state.pageNum === pages} onClick={this.hanldePage}>
+                    <Pagination.Item key={pages} active={this.state.pageNum === pages} onClick={this.handlePage}>
                         {pages}
                     </Pagination.Item>,
                 )
@@ -238,7 +238,7 @@ class Articles extends React.Component {
             let items = [];
             for (let i = 1; i <= pages; i++) {
                 items.push(
-                    <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.hanldePage}>
+                    <Pagination.Item key={i} active={i === this.state.pageNum} onClick={this.handlePage}>
                         {i}
                     </Pagination.Item>,
                 );
