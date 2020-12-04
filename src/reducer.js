@@ -227,7 +227,7 @@ export function frontend(state = initialState, action) {
                     info: action.data.data
                 }
             }
-            if (action.data.auth && action.data.auth.length > 0) {
+            if (action.data && action.data.auth && action.data.auth.length > 0) {
                 let link_account1 = [action.data.username, 'google', action.data.auth[0]['google']];
                 return {
                     ...state,
@@ -245,7 +245,7 @@ export function frontend(state = initialState, action) {
                 ...state
             }
         case getLink:
-            if (action.data.auth && action.data.auth.length > 0) {
+            if (action.data && action.data.auth && action.data.auth.length > 0) {
                 let link_account3 = [action.data.username, 'google', action.data.auth[0]['google']];
                 return {
                     ...state,
