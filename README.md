@@ -2,8 +2,6 @@ COMP 531 Final Frontend
 
 Yi Zhou
 
-netID: yz166
-
 test username: test
 
 password: 111
